@@ -167,18 +167,25 @@ class ModelCommonCommon extends Model {
         
         $logger->write($banner_data);
         
-        $rand = rand(0, $count-1);
+        if ($count > 0){
         
-        $logger->write("rand:".$rand);
+            $rand = rand(0, $count-1);
+            
+            $logger->write("rand:".$rand);
+            
+            
+            $banner_array['image'] = $banner_data[$rand]['image'];
+            if ($banner_data[$rand]['content']){
+                $logger->write("heee 1");
+                $banner_array['content'] = $banner_data[$rand]['content'][0];
+            } else {
+                $logger->write("heee 2");
+                $banner_array['content'] = 'Awesome Products';
+            }
+            
         
-        
-        $banner_array['image'] = $banner_data[$rand]['image'];
-        
-        if ($banner_data[$rand]['content']){
-            $logger->write("heee 1");
-            $banner_array['content'] = $banner_data[$rand]['content'][0];
         } else {
-            $logger->write("heee 2");
+            $banner_array['image'] = $this->model_tool_image->resize('placeholder.png', 1920, 300);
             $banner_array['content'] = 'Awesome Products';
         }
         
