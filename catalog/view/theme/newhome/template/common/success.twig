@@ -1,0 +1,67 @@
+{{ header }}
+<html lang="en">
+  <body>
+ 
+      <!-- catg header banner section -->
+      <section id="aa-catg-head-banner">
+         <img src="{{ banner['image'] }}" alt="fashion img">
+         <div class="aa-catg-head-banner-area">
+            <div class="container">
+               <div class="aa-catg-head-banner-content">
+                  <h2>{{ banner['content'] }}</h2>
+                  {% set count =  breadcrumbs|length %}
+                  <ol class="breadcrumb">
+                     {% for breadcrumb in breadcrumbs %}
+                     {% set count = count - 1 %}
+                     {% if count == 0 %}
+                     <li class="active"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+                     {% else %}
+                     <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+                     {% endif %}
+                     {% endfor %}
+                  </ol>
+               </div>
+            </div>
+         </div>
+      </section>
+      <!-- / catg header banner section -->
+
+
+
+
+ <!-- Cart view section -->
+ <section id="cart-view">
+   <div class="container">
+     <div class="row">
+       <div class="col-md-12">
+         <div class="cart-view-area">
+		 
+           <div class="cart-view-table">
+			<section id="aa-subscribe">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="aa-subscribe-area">
+            
+			<h3>{{ heading_title }}</h3>
+			<h5>{{ text_message }}</h5>
+			<div class="aa-prod-view-bottom">
+               <a class="aa-add-to-cart-btn" href="{{ continue }}" >Continue</a>
+            </div>
+			
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+		   </div>
+		   
+         </div>
+       </div>
+     </div>
+   </div>
+ </section>
+ <!-- / Cart view section -->
+
+</body>
+{{ footer }}

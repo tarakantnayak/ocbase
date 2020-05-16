@@ -1,0 +1,371 @@
+{{ header }}
+<!DOCTYPE html>
+<html lang="en">
+   <body>
+      <!-- catg header banner section -->
+      <section id="aa-catg-head-banner">
+         <img src="{{ banner['image'] }}" alt="fashion img">
+         <div class="aa-catg-head-banner-area">
+            <div class="container">
+               <div class="aa-catg-head-banner-content">
+                  <h2>{{ banner['content'] }}</h2>
+                  {% set count =  breadcrumbs.length %}
+                  <ol class="breadcrumb">
+                     {% for breadcrumb in breadcrumbs %}
+                     {% set count = count - 1 %}
+                     {% if count == 0 %}
+                     <li class="active"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+                     {% else %}
+                     <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+                     {% endif %}
+                     {% endfor %}
+                  </ol>
+               </div>
+            </div>
+         </div>
+      </section>
+      <!-- / catg header banner section -->
+      <!-- product category -->
+      <section id="aa-product-details">
+         <div class="container">
+            <div class="row">
+               <div class="col-md-12">
+                  <div class="aa-product-details-area">
+                     <div class="aa-product-details-content">
+                        <div class="row">
+                           <!-- Modal view slider -->
+                           <div class="col-md-5 col-sm-5 col-xs-12">
+                              <div class="aa-product-view-slider">
+                                 <div id="demo-1" class="simpleLens-gallery-container">
+                                    <div class="simpleLens-container">
+                                       <div class="simpleLens-big-image-container"><a data-lens-image="{{ images[0]['image_large'] }}" class="simpleLens-lens-image"><img src="{{ images[0]['image_medium'] }}" class="simpleLens-big-image"></a></div>
+                                    </div>
+                                    <div class="simpleLens-thumbnails-container">
+                                       {% for image in images %}
+                                       <a data-big-image="{{ image.image_medium }}" data-lens-image="{{ image.image_large  }}" class="simpleLens-thumbnail-wrapper" href="#">
+                                       <img src="{{ image.image_thumb }}">
+                                       </a> 
+                                       {% endfor %}						  
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                           <!-- Modal view content -->
+                           <div class="col-md-7 col-sm-7 col-xs-12">
+                              <div class="aa-product-view-content">
+                                 <h3>{{ heading_title }}</h3>
+                                 <div class="aa-price-block">
+                                    {% if special %}
+                                    <span class="aa-product-view-price">{{ special }}</span>
+                                    <span class="aa-product-view-price"><del>{{ price }}</del></span>
+                                    {% else %}
+                                    <span class="aa-product-view-price">{{ price }}</span>
+                                    {% endif %}
+                                    <p class="aa-product-avilability">Avilability: <span>{{ stock }}</span></p>
+                                 </div>
+                                 {{ short_desc }}
+                                 <p>Minimum Quantity To Purchase: {{ minimum }}</p>
+                                 <div class="aa-prod-quantity">
+                                    <form action="">
+                                       <select id="" name="">
+                                          <option selected="1" value="{{ minimum }}">{{ minimum }}</option>
+                                          {% for qty in quantity %}
+                                          <option value="1">2</option>
+                                          {% endfor %}						  
+                                       </select>
+                                    </form>
+                                    <p class="aa-prod-category">
+                                       Category: <a href="#">Polo T-Shirt</a>
+                                    </p>
+                                 </div>
+                                 <div class="aa-prod-view-bottom">
+                                    <a class="aa-add-to-cart-btn"  role="button" onclick="cart.add('{{ product.product_id }}', '{{ product.minimum }}');" >Add To Cart</a>
+                                    <a class="aa-add-to-cart-btn"  role="button" onclick="wishlist.add('{{ product.product_id }}');" >Wishlist</a>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="aa-product-details-bottom">
+                        <ul class="nav nav-tabs" id="myTab2">
+                           <li class="active"><a href="#description" data-toggle="tab">Description</a></li>
+                           <li><a href="#review" data-toggle="tab">Reviews</a></li>
+                        </ul>
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                           <div class="tab-pane fade in active" id="description">
+                              {{ description }}
+                           </div>
+                           <div class="tab-pane fade " id="review">
+                              <div class="aa-product-review-area">
+                                 {% if no_of_reviews == 0 %}
+                                 <h4>No Reviews for <b>{{ heading_title }}</b></h4>
+                                 {% else %}
+                                 <h4>{{ no_of_reviews }} Reviews for <b>{{ heading_title }}</b></h4>
+                                 {% endif %}
+                                 <ul class="aa-review-nav">
+                                    {% for review in product_reviews %}
+                                    <li>
+                                       <div class="media">
+                                          <div class="media-left">
+                                             <a href="">
+                                             <img class="media-object" src="" alt="">
+                                             </a>
+                                          </div>
+                                          <div class="media-body">
+                                             <h4 class="media-heading"><strong>{{ review.author }}</strong> - <span>{{ review.date_added }}</span></h4>
+                                             <div class="aa-product-rating">
+                                                {{ review.rating_display }}
+                                             </div>
+                                             <p>{{ review.text}}</p>
+                                          </div>
+                                       </div>
+                                    </li>
+                                    {% endfor %}
+                                 </ul>
+                                 <h4>Add a review</h4>
+                                 <div id="append_rating"></div>
+                                 <div class="aa-your-rating" id="rating0">
+                                    <p>Your Rating</p>
+                                    <a onclick="set_rating(1);"><span class="fa fa-star-o"></span></a>
+                                    <a onclick="set_rating(2)"><span class="fa fa-star-o"></span></a>
+                                    <a onclick="set_rating(3)"><span class="fa fa-star-o"></span></a>
+                                    <a onclick="set_rating(4)"><span class="fa fa-star-o"></span></a>
+                                    <a onclick="set_rating(5)"><span class="fa fa-star-o"></span></a>
+                                 </div>
+                                 <!-- review form -->
+                                 <div id="review"></div>
+                                 <form class="aa-review-form" id="form-review">
+                                    <div class="form-group">
+                                       <label for="message">Your Review</label>
+                                       <textarea class="form-control" rows="3" id="message" name="text" ></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                       <label for="name">Name</label>
+                                       <input type="text" class="form-control" id="name" placeholder="Name" name="name" value="{{ customer_name }}">
+                                       <input type="hidden" class="form-control" id="rating_value" name="rating" value="0">
+                                    </div>
+                                    <button type="button" class="btn btn-default aa-review-submit" id="button-review" onclick="saveReview();">Submit</button>
+                                 </form>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <!-- Related product -->
+                     <div class="aa-product-related-item">
+                        <h3>Related Products</h3>
+                        <ul class="aa-product-catg aa-related-item-slider">
+                           {% for product in related_products %}
+                           <!-- start single product item -->
+                           <li>
+                              <figure>
+                                 <a class="aa-product-img" href="{{ product.href }}"><img src="{{ product.images[0]['image_medium'] }}" alt="polo shirt img"></a>
+                                 <a class="aa-add-card-btn" role="button" onclick="cart.add('{{ product.product_id }}', '{{ product.minimum }}');"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
+                                 <figcaption>
+                                    <h4 class="aa-product-title"><a href="{{ product.href }}">{{ product.name }}</a></h4>
+                                    {% if product.special %}
+                                    <span class="aa-product-price">{{ product.special }}</span>
+                                    <span class="aa-product-price"><del>{{ product.price }}</del></span>
+                                    {% else %}
+                                    <span class="aa-product-price">{{ product.price }}</span>
+                                    {% endif %}
+                                 </figcaption>
+                              </figure>
+                              <div class="aa-product-hvr-content">
+                                 <a  role="button" data-toggle="tooltip" data-placement="top" onclick="wishlist.add('{{ product.product_id }}');" title="Add to Wishlist"><span class="fa fa-heart-o"></span></a>
+                                 <a  role="button" data-toggle2="tooltip" data-placement="top" title="Quick View" data-toggle="modal" data-target="#special-view-modal{{ product.product_id }}"><span class="fa fa-search"></span></a>                          
+                              </div>
+                              <!-- product badge -->
+                              {% if  product.special %}
+                              <span class="aa-badge aa-sale" href="#">SALE!</span>
+                              {% else %}
+                              <span class="aa-badge aa-hot" href="#">HOT!</span>
+                              {% endif %}
+                           </li>
+                           <!-- start single product item -->
+                           {% endfor %}
+                        </ul>
+                        {% for product in related_products %}
+                        <!-- quick view modal -->                  
+                        <div class="modal fade" id="special-view-modal{{ product.product_id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                           <div id="quick-view-modal">
+                              <div class="modal-dialog">
+                                 <div class="modal-content">
+                                    <div class="modal-body">
+                                       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                       <div class="row">
+                                          <!-- Modal view slider -->
+                                          <div class="col-md-6 col-sm-6 col-xs-12">
+                                             <div class="aa-product-view-slider">
+                                                <div class="simpleLens-gallery-container" id="demo-1">
+                                                   <div class="simpleLens-container">
+                                                      <div class="simpleLens-big-image-container">
+                                                         <a class="simpleLens-lens-image" data-lens-image="{{ product.images[0]['image_large'] }}">
+                                                         <img src="{{ product.images[0]['image_medium'] }}" class="simpleLens-big-image">
+                                                         </a>
+                                                      </div>
+                                                   </div>
+                                                   <div class="simpleLens-thumbnails-container">
+                                                      {% for image in product.images %}
+                                                      <a href="#" class="simpleLens-thumbnail-wrapper"
+                                                         data-lens-image="{{ image.image_large }}"
+                                                         data-big-image="{{ image.image_medium }}">
+                                                      <img src="{{ image.image_thumb }}">
+                                                      </a>
+                                                      {% endfor %}												
+                                                   </div>
+                                                </div>
+                                             </div>
+                                          </div>
+                                          <!-- Modal view content -->
+                                          <div class="col-md-6 col-sm-6 col-xs-12">
+                                             <div class="aa-product-view-content">
+                                                <h3>{{ product.name }}</h3>
+                                                <div class="aa-price-block">
+                                                   {% if product.special %}
+                                                   <span class="aa-product-view-price">{{ product.special }}</span>
+                                                   {% else %}		
+                                                   <span class="aa-product-view-price">{{ product.price }}</span>
+                                                   {% endif %}													
+                                                   <p class="aa-product-avilability">Avilability: <span>In stock</span></p>
+                                                </div>
+                                                <p>{{ product.description }}</p>
+                                                <div class="aa-prod-quantity">
+                                                   <form action="">
+                                                      <select name="quantity" id="quantity{{ product.product_id }}">
+                                                         <option value="{{ product.minimum }}" selected="1">{{ product.minimum }}</option>
+                                                      </select>
+                                                   </form>
+                                                   <p class="aa-prod-category">
+                                                      Category: <a href="{{ category.href }}">{{ category.name }}</a>
+                                                   </p>
+                                                </div>
+                                                <div class="aa-prod-view-bottom">
+                                                   <a  role="button" onclick="cart.add('{{ product.product_id }}', '{{ product.minimum }}');" class="aa-add-to-cart-btn"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
+                                                   <a href="{{ product.href }}" class="aa-add-to-cart-btn">View Details</a>
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <!-- /.modal-content -->
+                              </div>
+                              <!-- /.modal-dialog -->
+                           </div>
+                        </div>
+                        <!-- / quick view modal -->              
+                        {% endfor %}
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </section>
+      <!-- / product category -->
+   </body>
+   <script>
+      function set_rating(rating){
+      //	alert("rating is :"+rating);
+      
+      
+      var html = '';
+      if (rating == 1){
+      html += '<div class="aa-your-rating" id="rating1">';
+      html += '<p>Your Rating</p>';
+      html += '<a onclick="set_rating(1);"><span class="fa fa-star"></span></a>';
+      html += '<a onclick="set_rating(2)"><span class="fa fa-star-o"></span></a>';
+      html += '<a onclick="set_rating(3)"><span class="fa fa-star-o"></span></a>';
+      html += '<a onclick="set_rating(4)"><span class="fa fa-star-o"></span></a>';
+      html += '<a onclick="set_rating(5)"><span class="fa fa-star-o"></span></a>';
+      html += '</div>';
+      } else if (rating == 2) {
+      html += '<div class="aa-your-rating" id="rating2">';
+      html += '<p>Your Rating</p>';
+      html += '<a onclick="set_rating(1);"><span class="fa fa-star"></span></a>';
+      html += '<a onclick="set_rating(2)"><span class="fa fa-star"></span></a>';
+      html += '<a onclick="set_rating(3)"><span class="fa fa-star-o"></span></a>';
+      html += '<a onclick="set_rating(4)"><span class="fa fa-star-o"></span></a>';
+      html += '<a onclick="set_rating(5)"><span class="fa fa-star-o"></span></a>';
+      html += '</div>';	
+      } else if (rating == 3) {
+      html += '<div class="aa-your-rating" id="rating3">';
+      html += '<p>Your Rating</p>';
+      html += '<a onclick="set_rating(1);"><span class="fa fa-star"></span></a>';
+      html += '<a onclick="set_rating(2)"><span class="fa fa-star"></span></a>';
+      html += '<a onclick="set_rating(3)"><span class="fa fa-star"></span></a>';
+      html += '<a onclick="set_rating(4)"><span class="fa fa-star-o"></span></a>';
+      html += '<a onclick="set_rating(5)"><span class="fa fa-star-o"></span></a>';
+      html += '</div>';	
+      } else if (rating == 4) {
+      html += '<div class="aa-your-rating" id="rating4">';
+      html += '<p>Your Rating</p>';
+      html += '<a onclick="set_rating(1);"><span class="fa fa-star"></span></a>';
+      html += '<a onclick="set_rating(2)"><span class="fa fa-star"></span></a>';
+      html += '<a onclick="set_rating(3)"><span class="fa fa-star"></span></a>';
+      html += '<a onclick="set_rating(4)"><span class="fa fa-star"></span></a>';
+      html += '<a onclick="set_rating(5)"><span class="fa fa-star-o"></span></a>';
+      html += '</div>';	
+      } else if (rating == 5) {
+      html += '<div class="aa-your-rating" id="rating5">';
+      html += '<p>Your Rating</p>';
+      html += '<a onclick="set_rating(1);"><span class="fa fa-star"></span></a>';
+      html += '<a onclick="set_rating(2)"><span class="fa fa-star"></span></a>';
+      html += '<a onclick="set_rating(3)"><span class="fa fa-star"></span></a>';
+      html += '<a onclick="set_rating(4)"><span class="fa fa-star"></span></a>';
+      html += '<a onclick="set_rating(5)"><span class="fa fa-star"></span></a>';
+      html += '</div>';
+      }
+      
+      
+      for (var i=0; i<=5; i++){
+      element = document.getElementById("rating"+i);
+      
+      if(typeof(element) != 'undefined' && element != null){
+      	element.style.display = "none";
+      }
+      }
+      
+      document.getElementById("rating_value").value = rating;
+      
+      $("#append_rating").empty();
+      $("#append_rating").append(html);
+      
+      }
+   </script>
+   <script>
+      function saveReview(){
+      alert("inside saveReview");
+      $.ajax({
+      url: 'index.php?route=product/product/write&product_id={{ product_id }}',
+      type: 'post',
+      dataType: 'json',
+      data: $("#form-review").serialize(),
+      beforeSend: function() {
+      	$('#button-review').button('loading');
+      },
+      complete: function() {
+      	$('#button-review').button('reset');
+      },
+      success: function(json) {
+      	$('.alert-dismissible').remove();
+      
+      	if (json['error']) {
+      		$('#review').after('<div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> ' + json['error'] + '</div>');
+      	}
+      
+      	if (json['success']) {
+      		$('#review').after('<div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> ' + json['success'] + '</div>');
+      
+      		$('input[name=\'name\']').val('');
+      		$('textarea[name=\'text\']').val('');
+      		$('input[name=\'rating\']:checked').prop('checked', false);
+      	}
+      }
+      });
+      }
+      
+      
+   </script>
+</html>
+{{ footer }}

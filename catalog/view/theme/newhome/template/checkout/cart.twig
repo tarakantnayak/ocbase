@@ -1,0 +1,239 @@
+{{ header }}
+<!DOCTYPE html>
+<html lang="en">
+  <body>
+ 
+      <!-- catg header banner section -->
+      <section id="aa-catg-head-banner">
+         <img src="{{ banner['image'] }}" alt="fashion img">
+         <div class="aa-catg-head-banner-area">
+            <div class="container">
+               <div class="aa-catg-head-banner-content">
+                  <h2>{{ banner['content'] }}</h2>
+                  {% set count =  breadcrumbs|length %}
+                  <ol class="breadcrumb">
+                     {% for breadcrumb in breadcrumbs %}
+                     {% set count = count - 1 %}
+                     {% if count == 0 %}
+                     <li class="active"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+                     {% else %}
+                     <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+                     {% endif %}
+                     {% endfor %}
+                  </ol>
+               </div>
+            </div>
+         </div>
+      </section>
+      <!-- / catg header banner section -->
+
+ <!-- Cart view section -->
+ <section id="cart-view">
+   <div class="container">
+     <div class="row">
+       <div class="col-md-12">
+         <div class="cart-view-area">
+		 
+           <div class="cart-view-table">
+		   {% if products %}
+             <form action="">
+               <div class="table-responsive">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Action</th>
+                        <th>Image</th>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+						{% for product in products %}
+                      <tr>
+                        <td><a class="remove" role="button" onclick="cart.remove('{{ product.cart_id }}');"><fa class="fa fa-close"></fa></a></td>
+                        <td><a href="{{ product.href }}"><img src="{{ product.thumb }}" alt="img"></a></td>
+                        <td><a class="aa-cart-title" href="{{ product.href }}">{{ product.name }}</a></td>
+                        <td>{{ product.price }}</td>
+                        <td><input class="aa-cart-quantity" type="number" min="{{ product.minimum }}" id="input-quantity{{ product.cart_id }}" onblur="calculateTotal({{ product.cart_id }});" value="{{ product.quantity }}"></td>
+                        <td>{{ product.total }}</td>
+                      </tr>
+					  {% endfor %}
+						{% for voucher in vouchers %}
+                      <tr>
+                        <td>{{ voucher.description }}</td>
+                        <td></td>
+                        <td class="text-left"><div class="input-group btn-block" style="max-width: 200px;">
+                  <input type="text" name="" value="1" size="1" disabled="disabled" class="form-control" />
+                  <span class="input-group-btn">
+                  <button type="button" data-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger" onclick="voucher.remove('{{ voucher.key }}');"><i class="fa fa-times-circle"></i></button>
+                  </span></div>
+				  </td>
+              <td class="text-right">{{ voucher.amount }}</td>
+              <td class="text-right">{{ voucher.amount }}</td>
+                      </tr>
+					  {% endfor %}
+
+
+                      <tr>
+                        <td colspan="6" class="aa-cart-view-bottom">
+                          <div class="aa-cart-coupon" style="margin-right:10px;"><div id="coupon-code_message"></div>
+                            <input class="aa-coupon-code" id="input-coupon-code" type="text" placeholder="Coupon">
+                            <input class="aa-cart-view-btn" id="button-coupon-code" type="button" onclick="validateCoupon();" value="Apply Coupon">
+                          </div>
+						  
+                          <div class="aa-cart-coupon"><div id="voucher-code_message"></div>
+                            <input class="aa-coupon-code" id="input-voucher-code" type="text" placeholder="Voucher">
+                            <input class="aa-cart-view-btn" id="button-voucher-code" type="button" onclick="validateVoucher();" value="Apply Voucher">
+                          </div>
+
+                        </td>
+                      </tr>
+                      </tbody>
+                  </table>
+                </div>
+             </form>
+             <!-- Cart Total view -->
+             <div class="cart-view-total">
+               <h4>Cart Totals</h4>
+               <table class="aa-totals-table">
+                 <tbody>
+				 {% for total in totals %}
+                   <tr>
+                     <th>{{ total.title }}</th>
+                     <td>{{ total.text }}</td>
+                   </tr>
+				   {% endfor %}
+                 </tbody>
+               </table>
+               <a href="{{ checkout }}" class="aa-cart-view-btn">Proced to Checkout</a>
+             </div>
+			{% else %}
+			
+			<section id="aa-subscribe">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="aa-subscribe-area">
+            <h3>{{ text_error }}</h3>
+			
+			<div class="aa-prod-view-bottom">
+               <a class="aa-add-to-cart-btn" href="{{ continue }}" >Continue Shopping</a>
+            </div>
+			
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+				
+           {% endif %}
+		   </div>
+		   
+         </div>
+       </div>
+     </div>
+   </div>
+ </section>
+ <!-- / Cart view section -->
+<script>
+function calculateTotal(cart_id){
+	quantity = document.getElementById("input-quantity"+cart_id).value;
+//	alert(quantity);
+	
+	$.ajax({
+      url: 'index.php?route=checkout/cart/updateTotal&quantity=' + quantity + '&cart_id='+cart_id,
+      type: 'post',
+      dataType: 'json',
+      success: function(json) {
+	//  alert('success');
+		window.location = json['redirect'];
+	},
+		  error: function (xhr, ajaxOptions, thrownError) {
+			alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+		  }
+      
+      
+    });
+
+}
+</script>
+
+<script>
+function validateCoupon(){
+//if validated
+	var coupon = document.getElementById("input-coupon-code").value;
+	
+	$.ajax({
+      url: 'index.php?route=checkout/cart/validateCoupon&coupon=' + coupon,
+      type: 'post',
+      dataType: 'json',
+      beforeSend: function() {
+      	$('#button-coupon-code').button('loading');
+      },
+      complete: function() {
+      	$('#button-coupon-code').button('reset');
+      },
+
+      success: function(json) {
+      	$('.alert-dismissible').remove();
+      
+      	if (json['error']) {
+			//alert(json['error']);
+      		$('#coupon-code_message').after('<div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> ' + json['error'] + '</div>');
+      	} else {
+			window.location = json['redirect'];
+		}
+      
+      },
+		  error: function (xhr, ajaxOptions, thrownError) {
+			alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+		  }
+     
+    });
+
+
+}
+</script>
+
+<script>
+function validateVoucher(){
+//if validated
+	var voucher = document.getElementById("input-voucher-code").value;
+	
+	$.ajax({
+      url: 'index.php?route=checkout/cart/validateVoucher&voucher=' + voucher,
+      type: 'post',
+      dataType: 'json',
+      beforeSend: function() {
+      	$('#button-voucher-code').button('loading');
+      },
+      complete: function() {
+      	$('#button-voucher-code').button('reset');
+      },
+
+      success: function(json) {
+      	$('.alert-dismissible').remove();
+      
+      	if (json['error']) {
+			//alert(json['error']);
+      		$('#voucher-code_message').after('<div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> ' + json['error'] + '</div>');
+      	} else {
+			window.location = json['redirect'];
+		}
+      
+      },
+		  error: function (xhr, ajaxOptions, thrownError) {
+			alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+		  }
+     
+    });
+
+
+}
+</script>
+
+  </body>
+</html>
+{{ footer }}

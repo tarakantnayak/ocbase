@@ -1,0 +1,243 @@
+{{ header }}{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+
+    <!-- Add New maintenance modal starts -->
+        <div id="addMaintenanceValueModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Add Maintenance Value Form</h4>
+              <h5>Maintenance Name: {{ maintenance_name }}</h5>
+            </div>
+            <div class="modal-body">
+              <p>Please enter a Valid & Unique Value For This Maintenance Name</p>
+              <div class="panel-body">
+                <div class="form-group required">
+                  <label class="col-sm-12 control-label" for="input-maintenance_value">{{ entry_maintenance_value }}</label>
+                  <div class="col-sm-12">
+                    <input type="text" name="maintenance_value" value="{{ maintenance_value }}" placeholder="{{ entry_maintenance_value }}" id="input-maintenance_value" class="form-control" />
+                    <div id="failure"></div>
+                  </div>
+                </div>
+
+                <div class="form-group required">
+                  <label class="col-sm-12 control-label" for="input-short_name">{{ entry_short_name }}</label>
+                  <div class="col-sm-12">
+                    <input type="text" name="short_name" value="{{ short_name }}" placeholder="{{ entry_short_name }}" id="input-short_name" class="form-control" />
+                    <div id="failure"></div>
+                  </div>
+                </div>
+
+
+              </div>
+
+            </div>
+            <div class="modal-footer">
+              <button class="btn" onclick="saveMaintenanceValue('{{ maintenance_name }}');">Save</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+<!-- Add New maintenance modal ends -->
+
+
+      <div class="pull-right">
+        <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addMaintenanceValueModal"><i class="fa fa-plus"></i></button>
+      </div>
+
+      <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+        <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid">
+    {% if error_warning %}
+    <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    {% if success %}
+    <div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> {{ success }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+
+<h2 class="pull-center">Maintenance Name: {{ maintenance_name }}</h2>
+
+        <h3 class="panel-title"><i class="fa fa-list"></i> {{ text_value_list }}</h3>
+      </div>
+      <div class="panel-body">
+        <form action="" method="post" enctype="multipart/form-data" id="form-maintenance_detail">
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+              <thead>
+                <tr>
+                  <td style="width: 1px;" class="text-center"><input type="checkbox" onclick="$('input[name*=\'selected\']').prop('checked', this.checked);" /></td>
+                  <td class="text-left">{% if sort == 'title' %}
+                    <a href="{{ sort_maintenance_value }}" class="{{ order|lower }}">{{ column_maintenance_value }}</a>
+                    {% else %}
+                    <a href="{{ sort_maintenance_value }}">{{ column_maintenance_value }}</a>
+                    {% endif %}</td>
+                    <td class="text-right">{{ column_short_name }}</td>
+                  <td class="text-right">{{ column_action }}</td>
+                </tr>
+              </thead>
+              <tbody>
+                {% if maintenance_values %}
+                {% for value in maintenance_values %}
+
+                <!-- Edit maintenance value modal starts -->
+                    <div id="EditMaintenanceValueModal{{ value.maintenance_detail_id }}" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+
+                      <!-- Modal content-->
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+                          <h4 class="modal-title">Edit Maintenance Value</h4>
+                        </div>
+                        <div class="modal-body">
+                          <p>Please Enter A Valid & Unique Value</p>
+                          <div class="panel-body">
+                            <div class="form-group required">
+                              <label class="col-sm-12 control-label" for="input-title">{{ entry_maintenance_value }}</label>
+                              <div class="col-sm-12">
+                                <input type="text" name="title" value="{{ value.maintenance_value }}" placeholder="{{ entry_maintenance_value }}" id="input-maintenance_value{{ value.maintenance_detail_id }}" class="form-control" />
+                                <div id="failure"></div>
+                              </div>
+                            </div>
+                            <div class="form-group required">
+                              <label class="col-sm-12 control-label" for="input-title">{{ entry_short_name }}</label>
+                              <div class="col-sm-12">
+                                <input type="text" name="title" value="{{ value.short_name }}" placeholder="{{ entry_short_name }}" id="input-short_name{{ value.maintenance_detail_id }}" class="form-control" />
+                                <div id="failure"></div>
+                              </div>
+                            </div>
+                          </div>
+
+                        </div>
+                        <div class="modal-footer">
+                          <button class="btn" onclick="editMaintenanceValue({{ value.maintenance_detail_id }}, '{{ maintenance_name }}');">Save Changes</button>
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+            <!-- Edit maintenance modal ends -->
+
+
+
+                <tr>
+                  <td class="text-center">{% if value.maintenance_detail_id in selected %}
+                    <input type="checkbox" name="selected[]" value="{{ value.maintenance_detail_id }}" checked="checked" />
+                    {% else %}
+                    <input type="checkbox" name="selected[]" value="{{ value.maintenance_detail_id }}" />
+                    {% endif %}</td>
+                  <td class="text_left">
+                    <a href="" data-toggle="modal" data-target="#EditMaintenanceValueModal{{ value.maintenance_detail_id }}">{{ value.maintenance_value }}</a>
+                  </td>
+                  <td class="text_left">
+                    <a href="" data-toggle="modal" data-target="#EditMaintenanceValueModal{{ value.maintenance_detail_id }}">{{ value.short_name }}</a>
+                  </td>
+                  
+                  <td class="text-right">
+                    <a href="{{ value.delete_value }}" data-toggle="tooltip" title="{{ button_delete }}" class="btn btn-primary"><i class="fa fa-trash-o"></i></a>
+                  </td>
+                </tr>
+                {% endfor %}
+                {% else %}
+                <tr>
+                  <td class="text-center" colspan="6">{{ text_no_results }}</td>
+                </tr>
+                {% endif %}
+              </tbody>
+            </table>
+          </div>
+        </form>
+        <div class="row">
+          <div class="col-sm-6 text-left">{{ pagination }}</div>
+          <div class="col-sm-6 text-right">{{ results }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+function saveMaintenanceValue(maintenance_name){
+  //alert("inside saveMaintenanceValue");
+  var maintenance_value = document.getElementById("input-maintenance_value").value;
+  var short_name = document.getElementById("input-short_name").value;
+  //alert("maintenance_value :"+maintenance_value);
+  var maintenance_id = {{ maintenance_id }};
+  //alert("maintenance_id :"+maintenance_id);
+  //var maintenance_name = {{ maintenance_name }};
+  //alert("maintenance_name :"+maintenance_name);
+
+  $.ajax({
+  type: 'post',
+  url: 'index.php?route=common/maintenance/saveMaintenanceValue&user_token={{ user_token }}&maintenance_value='+ maintenance_value + '&short_name='+ short_name + '&maintenance_id='+ maintenance_id,
+  dataType: 'json',
+  success: function(json){
+    //alert("message :"+json['message']);
+    //alert("value :"+json['value']);
+    if (json['value'] == 1){
+      window.location = 'index.php?route=common/maintenance/getDetailList&user_token={{ user_token }}&maintenance_id='+ maintenance_id +'&maintenance_name='+ maintenance_name;
+      $("#success").html('<div class="col-md-12 text-center" style="color:#33cc33"><b>' + json['message'] + '</b></div>').show('fast').delay(5000).hide('fast');
+    } else {
+      $("#failure").html('<div class="col-md-12 text-center" style="color:#33cc33"><b>' + json['message'] + '</b></div>').show('fast').delay(5000).hide('fast');
+    }
+  },
+  error: function (xhr, ajaxOptions, thrownError) {
+  alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+  }
+  });
+
+}
+</script>
+<script>
+function editMaintenanceValue(maintenance_detail_id, maintenance_name){
+  //alert("inside editMaintenanceValue");
+  var maintenance_value = document.getElementById("input-maintenance_value"+ maintenance_detail_id).value;
+  var short_name = document.getElementById("input-short_name" + maintenance_detail_id).value;
+  //alert("maintenance_value :"+maintenance_value);
+  var maintenance_id = {{ maintenance_id }};
+  //alert("maintenance_id :"+maintenance_id);
+  //alert("maintenance_name :"+maintenance_name);
+
+  $.ajax({
+  type: 'post',
+  url: 'index.php?route=common/maintenance/editMaintenanceValue&user_token={{ user_token }}&maintenance_value='+ maintenance_value + '&short_name='+ short_name  + '&maintenance_detail_id='+ maintenance_detail_id+ '&maintenance_id='+ maintenance_id,
+  dataType: 'json',
+  success: function(json){
+//    alert("message :"+json['message']);
+//    alert("value :"+json['value']);
+    if (json['value'] == 1){
+      window.location = 'index.php?route=common/maintenance/getDetailList&user_token={{ user_token }}&maintenance_id='+ maintenance_id +'&maintenance_name='+ maintenance_name;
+      $("#success").html('<div class="col-md-12 text-center" style="color:#33cc33"><b>' + json['message'] + '</b></div>').show('fast').delay(5000).hide('fast');
+    } else {
+      $("#failure").html('<div class="col-md-12 text-center" style="color:#33cc33"><b>' + json['message'] + '</b></div>').show('fast').delay(5000).hide('fast');
+    }
+  },
+  error: function (xhr, ajaxOptions, thrownError) {
+  alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+  }
+  });
+
+}
+</script>
+
+{{ footer }}

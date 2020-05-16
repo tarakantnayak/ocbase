@@ -1,0 +1,908 @@
+{{ header }}
+<!DOCTYPE html>
+<html lang="en">
+<!-- Start slider -->
+<section id="aa-slider">
+   <div class="aa-slider-area">
+      <div id="sequence" class="seq">
+         <div class="seq-screen">
+            <ul class="seq-canvas">
+               <!-- single slide item -->
+               {% for image_data in slider %}
+               <li>
+                  <div class="seq-model">
+                     <img data-seq src="{{ image_data.image }}" alt="Men slide img" />
+                  </div>
+                  <div class="seq-title">
+                     <span data-seq>{{ image_data.content[0] }}</span>                
+                     <h2 data-seq>{{ image_data.content[1] }}</h2>
+                     <p data-seq>{{ image_data.content[2] }}</p>
+                     <a data-seq href="{{ image_data.link }}" class="aa-shop-now-btn aa-secondary-btn">{{ image_data.content[3] }}</a>
+                  </div>
+               </li>
+               {% endfor %}
+            </ul>
+         </div>
+         <!-- slider navigation btn -->
+         <fieldset class="seq-nav" aria-controls="sequence" aria-label="Slider buttons">
+            <a type="button" class="seq-prev" aria-label="Previous"><span class="fa fa-angle-left"></span></a>
+            <a type="button" class="seq-next" aria-label="Next"><span class="fa fa-angle-right"></span></a>
+         </fieldset>
+      </div>
+   </div>
+</section>
+<!-- / slider -->
+<!-- Start Promo section -->
+<section id="aa-promo">
+   <div class="container">
+      <div class="row">
+         <div class="col-md-12">
+            <div class="aa-promo-area">
+               <div class="row">
+                  <!-- promo left -->
+                  <div class="col-md-5 no-padding">
+                     <div class="aa-promo-left">
+                        <div class="aa-promo-banner">
+                           <img src="{{ promo_banner[0]['image'] }}" alt="img">                    
+                           <div class="aa-prom-content">
+                              <span>{{ promo_banner[0]['content'][0] }}</span>
+                              <h4><a href="{{ promo_banner[0]['link'] }}">{{ promo_banner[0]['content'][1] }}</a></h4>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <!-- promo right -->
+                  <div class="col-md-7 no-padding">
+                     <div class="aa-promo-right">
+                        <div class="aa-single-promo-right">
+                           <div class="aa-promo-banner">
+                              <img src="{{ promo_banner[1]['image'] }}" alt="img">                      
+                              <div class="aa-prom-content">
+                                 <span>{{ promo_banner[1]['content'][0] }}</span>
+                                 <h4><a href="{{ promo_banner[1]['link'] }}">{{ promo_banner[1]['content'][1] }}</a></h4>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="aa-single-promo-right">
+                           <div class="aa-promo-banner">
+                              <img src="{{ promo_banner[2]['image'] }}" alt="img">                      
+                              <div class="aa-prom-content">
+                                 <span>{{ promo_banner[2]['content'][0] }}</span>
+                                 <h4><a href="{{ promo_banner[2]['link'] }}">{{ promo_banner[2]['content'][1] }}</a></h4>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="aa-single-promo-right">
+                           <div class="aa-promo-banner">
+                              <img src="{{ promo_banner[3]['image'] }}" alt="img">                      
+                              <div class="aa-prom-content">
+                                 <span>{{ promo_banner[3]['content'][0] }}</span>
+                                 <h4><a href="{{ promo_banner[3]['link'] }}">{{ promo_banner[3]['content'][1] }}</a></h4>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="aa-single-promo-right">
+                           <div class="aa-promo-banner">
+                              <img src="{{ promo_banner[4]['image'] }}" alt="img">                      
+                              <div class="aa-prom-content">
+                                 <span>{{ promo_banner[4]['content'][0] }}</span>
+                                 <h4><a href="{{ promo_banner[4]['link'] }}">{{ promo_banner[4]['content'][1] }}</a></h4>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</section>
+<!-- / Promo section -->
+<!-- Products section -->
+<section id="aa-product">
+   <div class="container">
+      <div class="row">
+         <div class="col-md-12">
+            <div class="row">
+               <div class="aa-product-area">
+                  <div class="aa-product-inner">
+                     <!-- start prduct navigation -->
+                     {% set category_num = 0 %}
+                     <ul class="nav nav-tabs aa-products-tab">
+                        {% for category in categories %}
+                        {% if category_num == 0 %}
+                        <li class="active"><a href="#category_name_{{ category_num }}" data-toggle="tab">{{ category.name }}</a></li>
+                        {% else %}
+                        <li><a href="#category_name_{{ category_num }}" data-toggle="tab">{{ category.name }}</a></li>
+                        {% endif %}
+                        {% set category_num = category_num + 1 %}
+                        {% endfor %}
+                     </ul>
+                     <!-- Tab panes -->
+                     {% set category_num = 0 %}
+                     <div class="tab-content">
+                        {% for category in categories %}
+                        {% if category_num == 0 %}
+                        <div class="tab-pane fade in active" id="category_name_{{ category_num }}" style="text-align: center; padding-bottom: 35px;">
+                           {% else %}
+                           <div class="tab-pane fade" id="category_name_{{ category_num }}"  style="text-align: center; padding-bottom: 35px;">
+                              {% endif %}
+                              <ul class="aa-product-catg row">
+                                 {% for product in category.products %}
+                                 <li>
+                                    <figure>
+                                       <a class="aa-product-img" href="{{ product.href }}"><img src="{{ product.images[0]['image_medium'] }}" alt="polo shirt img"></a>
+                                       <a class="aa-add-card-btn"  role="button" onclick="cart.add('{{ product.product_id }}', '{{ product.minimum }}');"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
+                                       <figcaption>
+                                          <h4 class="aa-product-title"><a href="{{ product.href }}">{{ product.name }}</a></h4>
+                                                                {% if product.special %}
+					  <span class="aa-product-price">{{ product.special }}</span>
+					  <span class="aa-product-price"><del>{{ product.price }}</del></span>
+					  {% else %}
+					  <span class="aa-product-price">{{ product.price }}</span>
+					  {% endif %}
+
+                                       </figcaption>
+                                    </figure>
+                                    <div class="aa-product-hvr-content">
+                                       <a  role="button" data-toggle="tooltip" data-placement="top" onclick="wishlist.add('{{ product.product_id }}');" title="Add to Wishlist"><span class="fa fa-heart-o"></span></a>
+                                       <a  role="button" data-toggle2="tooltip" data-placement="top" title="Quick View" data-toggle="modal" data-target="#special-view-modal{{ product.product_id }}"><span class="fa fa-search"></span></a>                          
+                                    </div>
+                                    <!-- product badge -->
+									{% if  product.special %}
+                                    <span class="aa-badge aa-sale" href="#">SALE!</span>
+									{% else %}
+									<span class="aa-badge aa-hot" href="#">HOT!</span>
+									{% endif %}
+                                 </li>
+								 
+                                 {% endfor %}	
+                              </ul>
+                              <a class="aa-browse-btn" href="{{ category.href }}">Browse all Product <span class="fa fa-long-arrow-right"></span></a>
+                              {% if category_num == 0 %}
+                           </div>
+                           {% else %}
+                        </div>
+                        {% endif %}
+                    
+ 
+						{% set category_num = category_num + 1 %}
+                        {% endfor %}	
+                     </div>
+                    
+					{% for category in categories %}
+					{% for product in category.products %}
+						<!-- quick view modal -->                  
+                     <div class="modal fade" id="special-view-modal{{ product.product_id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+						<div id="quick-view-modal">
+                        <div class="modal-dialog">
+                           <div class="modal-content">
+                              <div class="modal-body">
+                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                 <div class="row">
+                                    <!-- Modal view slider -->
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                       <div class="aa-product-view-slider">
+                                          <div class="simpleLens-gallery-container" id="demo-1">
+                                             <div class="simpleLens-container">
+                                                <div class="simpleLens-big-image-container">
+                                                   <a class="simpleLens-lens-image" data-lens-image="{{ product.images[0]['image_large'] }}">
+                                                   <img src="{{ product.images[0]['image_medium'] }}" class="simpleLens-big-image">
+                                                   </a>
+                                                </div>
+                                             </div>
+                                             <div class="simpleLens-thumbnails-container">
+											 
+												{% for image in product.images %}
+												
+                                                <a href="#" class="simpleLens-thumbnail-wrapper"
+                                                   data-lens-image="{{ image.image_large }}"
+                                                   data-big-image="{{ image.image_medium }}">
+                                                <img src="{{ image.image_thumb }}">
+                                                </a>
+												
+												
+												{% endfor %}												
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <!-- Modal view content -->
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                       <div class="aa-product-view-content">
+                                          <h3>{{ product.name }}</h3>
+                                          <div class="aa-price-block">
+										  {% if product.special %}
+                                             <span class="aa-product-view-price">{{ product.special }}</span>
+											{% else %}		
+											<span class="aa-product-view-price">{{ product.price }}</span>
+											{% endif %}													
+                                             <p class="aa-product-avilability">Avilability: <span>In stock</span></p>
+                                          </div>
+                                          <p>{{ product.description }}</p>
+                                          
+                                          <div class="aa-prod-quantity">
+                                             <form action="">
+                                                <select name="quantity" id="quantity{{ product.product_id }}">
+                                                   <option value="{{ product.minimum }}" selected="1">{{ product.minimum }}</option>
+                                                </select>
+                                             </form>
+                                             <p class="aa-prod-category">
+                                                Category: <a href="{{ category.href }}">{{ category.name }}</a>
+                                             </p>
+                                          </div>
+                                          <div class="aa-prod-view-bottom">
+                                             <a  role="button" onclick="cart.add('{{ product.product_id }}', '{{ product.minimum }}');" class="aa-add-to-cart-btn"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
+                                             <a href="{{ product.href }}" class="aa-add-to-cart-btn">View Details</a>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                           <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+						</div>
+                     </div>
+                     <!-- / quick view modal -->              
+
+					{% endfor %}	
+					{% endfor %}	
+					
+					
+					
+					
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</section>
+<!-- / Products section -->
+<!-- banner section -->
+<section id="aa-banner">
+   <div class="container">
+      <div class="row">
+         <div class="col-md-12">
+            <div class="row">
+               <div class="aa-banner-area">
+			   {% for image_data in long_banner %}
+                  <a href="{{ image_data.link }}"><img src="{{ image_data.image }}" alt="fashion banner img"></a>
+				  {% endfor %}
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</section>
+<!-- popular section -->
+<section id="aa-popular-category">
+   <div class="container">
+      <div class="row">
+         <div class="col-md-12">
+            <div class="row">
+               <div class="aa-popular-category-area">
+                  <!-- start prduct navigation -->
+                  <ul class="nav nav-tabs aa-products-tab">
+				  {% if  recent['products'] %}
+					<li class="active"><a href="#recent" data-toggle="tab">Recent Views</a></li>
+					<li><a href="#popular" data-toggle="tab">Popular</a></li>
+				  {% else %}
+					<li class="active"><a href="#popular" data-toggle="tab">Popular</a></li>
+					{% endif %}
+						
+                     
+                     <li><a href="#featured" data-toggle="tab">Featured</a></li>
+                     <li><a href="#latest" data-toggle="tab">Latest</a></li>
+                  </ul>
+                  <!-- Tab panes -->
+                  <div class="tab-content">
+				  
+				               <!-- Start recent view category -->
+							   {% if  recent['products'] %}
+                     <div class="tab-pane fade in active" id="recent">
+                        <ul class="aa-product-catg aa-popular-slider">
+                           <!-- start single product item -->
+                          
+						{% for product in recent['products'] %}
+
+
+						  <li>
+                              <figure>
+                                 <a class="aa-product-img" href="{{ product.href }}"><img src="{{ product.images[0]['image_medium'] }}" alt="polo shirt img"></a>
+                                 <a class="aa-add-card-btn"href="" onclick="cart.add('{{ product.product_id }}', '{{ product.minimum }}');"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
+                                 <figcaption>
+                                    <h4 class="aa-product-title"><a href="{{ product.href }}">{{ product.name }}</a></h4>
+									{% if  product.special %}
+                                    <span class="aa-product-price">{{ product.special }}</span><span class="aa-product-price"><del>{{ product.price }}</del></span>
+									{% else %}
+									<span class="aa-product-price">{{ product.price }}</span>
+									{% endif %}
+                                 </figcaption>
+                              </figure>
+							  
+                              <div class="aa-product-hvr-content">
+                                       <a  role="button" data-toggle="tooltip" data-placement="top" onclick="wishlist.add('{{ product.product_id }}');" title="Add to Wishlist"><span class="fa fa-heart-o"></span></a>
+                                       <a  role="button" data-toggle2="tooltip" data-placement="top" title="Quick View" data-toggle="modal" data-target="#special-view-modal-recent{{ product.product_id }}"><span class="fa fa-search"></span></a>                          
+                                    </div>
+                                    <!-- product badge -->
+									{% if  product.special %}
+                                    <span class="aa-badge aa-sale" href="#">SALE!</span>
+									{% else %}
+									<span class="aa-badge aa-hot" href="#">HOT!</span>
+									{% endif %}
+
+							  
+                           </li>
+
+
+									{% endfor %}
+
+
+                        </ul>
+                        <a class="aa-browse-btn" href="{{ recent['href'] }}">Browse all Product <span class="fa fa-long-arrow-right"></span></a>
+                     </div>
+					 
+					 
+					 
+						{% for product in recent['products'] %}
+					 
+					 						<!-- quick view modal -->                  
+                     <div class="modal fade" id="special-view-modal-recent{{ product.product_id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+						<div id="quick-view-modal">
+                        <div class="modal-dialog">
+                           <div class="modal-content">
+                              <div class="modal-body">
+                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                 <div class="row">
+                                    <!-- Modal view slider -->
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                       <div class="aa-product-view-slider">
+                                          <div class="simpleLens-gallery-container" id="demo-1">
+                                             <div class="simpleLens-container">
+                                                <div class="simpleLens-big-image-container">
+                                                   <a class="simpleLens-lens-image" data-lens-image="{{ product.images[0]['image_large'] }}">
+                                                   <img src="{{ product.images[0]['image_medium'] }}" class="simpleLens-big-image">
+                                                   </a>
+                                                </div>
+                                             </div>
+                                             <div class="simpleLens-thumbnails-container">
+											 
+												{% for image in product.images %}
+												
+                                                <a href="#" class="simpleLens-thumbnail-wrapper"
+                                                   data-lens-image="{{ image.image_large }}"
+                                                   data-big-image="{{ image.image_medium }}">
+                                                <img src="{{ image.image_thumb }}">
+                                                </a>
+												
+												
+												{% endfor %}												
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <!-- Modal view content -->
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                       <div class="aa-product-view-content">
+                                          <h3>{{ product.name }}</h3>
+                                          <div class="aa-price-block">
+										  {% if product.special %}
+                                             <span class="aa-product-view-price">{{ product.special }}</span>
+											{% else %}		
+											<span class="aa-product-view-price">{{ product.price }}</span>
+											{% endif %}													
+                                             <p class="aa-product-avilability">Avilability: <span>In stock</span></p>
+                                          </div>
+                                          <p>{{ product.description }}</p>
+                                          
+                                          <div class="aa-prod-quantity">
+                                             <form action="">
+                                                <select name="quantity" id="quantity{{ product.product_id }}">
+                                                   <option value="{{ product.minimum }}" selected="1">{{ product.minimum }}</option>
+                                                </select>
+                                             </form>
+                                             <p class="aa-prod-category">
+                                                Category: <a href="{{ category.href }}">{{ category.name }}</a>
+                                             </p>
+                                          </div>
+                                          <div class="aa-prod-view-bottom">
+                                             <a href="" onclick="cart.add('{{ product.product_id }}', '{{ product.minimum }}');" class="aa-add-to-cart-btn"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
+                                             <a href="{{ product.href }}" class="aa-add-to-cart-btn">View Details</a>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                           <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+						</div>
+                     </div>
+                     <!-- / quick view modal -->              
+
+									{% endfor %}
+{% endif %}
+		
+				  
+				  
+                     <!-- Start men popular category -->
+					 {% if  recent['products'] %}
+                     <div class="tab-pane fade" id="popular">
+					 {% else %}
+					 <div class="tab-pane fade in active" id="popular">
+					 {% endif %}
+                        <ul class="aa-product-catg aa-popular-slider">
+                           <!-- start single product item -->
+                          
+						{% for product in popular['products'] %}
+
+
+						  <li>
+                              <figure>
+                                 <a class="aa-product-img" href="{{ product.href }}"><img src="{{ product.images[0]['image_medium'] }}" alt="polo shirt img"></a>
+                                 <a class="aa-add-card-btn"href="" onclick="cart.add('{{ product.product_id }}', '{{ product.minimum }}');"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
+                                 <figcaption>
+                                    <h4 class="aa-product-title"><a href="{{ product.href }}">{{ product.name }}</a></h4>
+									{% if  product.special %}
+                                    <span class="aa-product-price">{{ product.special }}</span><span class="aa-product-price"><del>{{ product.price }}</del></span>
+									{% else %}
+									<span class="aa-product-price">{{ product.price }}</span>
+									{% endif %}
+                                 </figcaption>
+                              </figure>
+							  
+                              <div class="aa-product-hvr-content">
+                                       <a  role="button" data-toggle="tooltip" data-placement="top" onclick="wishlist.add('{{ product.product_id }}');" title="Add to Wishlist"><span class="fa fa-heart-o"></span></a>
+                                       <a  role="button" data-toggle2="tooltip" data-placement="top" title="Quick View" data-toggle="modal" data-target="#special-view-modal-popular{{ product.product_id }}"><span class="fa fa-search"></span></a>                          
+                                    </div>
+                                    <!-- product badge -->
+									{% if  product.special %}
+                                    <span class="aa-badge aa-sale" href="#">SALE!</span>
+									{% else %}
+									<span class="aa-badge aa-hot" href="#">HOT!</span>
+									{% endif %}
+
+							  
+                           </li>
+
+
+									{% endfor %}
+
+
+                        </ul>
+                        <a class="aa-browse-btn" href="{{ popular['href'] }}">Browse all Product <span class="fa fa-long-arrow-right"></span></a>
+                     </div>
+					 
+					 
+					 
+						{% for product in popular['products'] %}
+					 
+					 						<!-- quick view modal -->                  
+                     <div class="modal fade" id="special-view-modal-popular{{ product.product_id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+						<div id="quick-view-modal">
+                        <div class="modal-dialog">
+                           <div class="modal-content">
+                              <div class="modal-body">
+                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                 <div class="row">
+                                    <!-- Modal view slider -->
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                       <div class="aa-product-view-slider">
+                                          <div class="simpleLens-gallery-container" id="demo-1">
+                                             <div class="simpleLens-container">
+                                                <div class="simpleLens-big-image-container">
+                                                   <a class="simpleLens-lens-image" data-lens-image="{{ product.images[0]['image_large'] }}">
+                                                   <img src="{{ product.images[0]['image_medium'] }}" class="simpleLens-big-image">
+                                                   </a>
+                                                </div>
+                                             </div>
+                                             <div class="simpleLens-thumbnails-container">
+											 
+												{% for image in product.images %}
+												
+                                                <a href="#" class="simpleLens-thumbnail-wrapper"
+                                                   data-lens-image="{{ image.image_large }}"
+                                                   data-big-image="{{ image.image_medium }}">
+                                                <img src="{{ image.image_thumb }}">
+                                                </a>
+												
+												
+												{% endfor %}												
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <!-- Modal view content -->
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                       <div class="aa-product-view-content">
+                                          <h3>{{ product.name }}</h3>
+                                          <div class="aa-price-block">
+										  {% if product.special %}
+                                             <span class="aa-product-view-price">{{ product.special }}</span>
+											{% else %}		
+											<span class="aa-product-view-price">{{ product.price }}</span>
+											{% endif %}													
+                                             <p class="aa-product-avilability">Avilability: <span>In stock</span></p>
+                                          </div>
+                                          <p>{{ product.description }}</p>
+                                          
+                                          <div class="aa-prod-quantity">
+                                             <form action="">
+                                                <select name="quantity" id="quantity{{ product.product_id }}">
+                                                   <option value="{{ product.minimum }}" selected="1">{{ product.minimum }}</option>
+                                                </select>
+                                             </form>
+                                             <p class="aa-prod-category">
+                                                Category: <a href="{{ category.href }}">{{ category.name }}</a>
+                                             </p>
+                                          </div>
+                                          <div class="aa-prod-view-bottom">
+                                             <a href="" onclick="cart.add('{{ product.product_id }}', '{{ product.minimum }}');" class="aa-add-to-cart-btn"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
+                                             <a href="{{ product.href }}" class="aa-add-to-cart-btn">View Details</a>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                           <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+						</div>
+                     </div>
+                     <!-- / quick view modal -->              
+
+									{% endfor %}
+
+					 
+					 
+					 
+					 
+                     <!-- / popular product category -->
+                     <!-- start featured product category -->
+                     <div class="tab-pane fade" id="featured">
+                        <ul class="aa-product-catg aa-featured-slider">
+                           <!-- start single product item -->
+
+						{% for product in featured['products'] %}
+
+
+						  <li>
+                              <figure>
+                                 <a class="aa-product-img" href="{{ product.href }}"><img src="{{ product.images[0]['image_medium'] }}" alt="polo shirt img"></a>
+                                 <a class="aa-add-card-btn"href="" onclick="cart.add('{{ product.product_id }}', '{{ product.minimum }}');"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
+                                 <figcaption>
+                                    <h4 class="aa-product-title"><a href="{{ product.href }}">{{ product.name }}</a></h4>
+									{% if  product.special %}
+                                    <span class="aa-product-price">{{ product.special }}</span><span class="aa-product-price"><del>{{ product.price }}</del></span>
+									{% else %}
+									<span class="aa-product-price">{{ product.price }}</span>
+									{% endif %}
+                                 </figcaption>
+                              </figure>
+							  
+                              <div class="aa-product-hvr-content">
+                                       <a  role="button" data-toggle="tooltip" data-placement="top" onclick="wishlist.add('{{ product.product_id }}');" title="Add to Wishlist"><span class="fa fa-heart-o"></span></a>
+                                       <a  role="button" data-toggle2="tooltip" data-placement="top" title="Quick View" data-toggle="modal" data-target="#special-view-modal-featured{{ product.product_id }}"><span class="fa fa-search"></span></a>                          
+                                    </div>
+                                    <!-- product badge -->
+									{% if  product.special %}
+                                    <span class="aa-badge aa-sale" href="#">SALE!</span>
+									{% else %}
+									<span class="aa-badge aa-hot" href="#">HOT!</span>
+									{% endif %}
+
+							  
+                           </li>
+									{% endfor %}
+
+
+                        </ul>
+                        <a class="aa-browse-btn" href="{{ featured['href'] }}">Browse all Product <span class="fa fa-long-arrow-right"></span></a>
+                     </div>
+
+						{% for product in featured['products'] %}
+					 
+					 						<!-- quick view modal -->                  
+                     <div class="modal fade" id="special-view-modal-featured{{ product.product_id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+						<div id="quick-view-modal">
+                        <div class="modal-dialog">
+                           <div class="modal-content">
+                              <div class="modal-body">
+                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                 <div class="row">
+                                    <!-- Modal view slider -->
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                       <div class="aa-product-view-slider">
+                                          <div class="simpleLens-gallery-container" id="demo-1">
+                                             <div class="simpleLens-container">
+                                                <div class="simpleLens-big-image-container">
+                                                   <a class="simpleLens-lens-image" data-lens-image="{{ product.images[0]['image_large'] }}">
+                                                   <img src="{{ product.images[0]['image_medium'] }}" class="simpleLens-big-image">
+                                                   </a>
+                                                </div>
+                                             </div>
+                                             <div class="simpleLens-thumbnails-container">
+											 
+												{% for image in product.images %}
+												
+                                                <a href="#" class="simpleLens-thumbnail-wrapper"
+                                                   data-lens-image="{{ image.image_large }}"
+                                                   data-big-image="{{ image.image_medium }}">
+                                                <img src="{{ image.image_thumb }}">
+                                                </a>
+												
+												
+												{% endfor %}												
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <!-- Modal view content -->
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                       <div class="aa-product-view-content">
+                                          <h3>{{ product.name }}</h3>
+                                          <div class="aa-price-block">
+										  {% if product.special %}
+                                             <span class="aa-product-view-price">{{ product.special }}</span>
+											{% else %}		
+											<span class="aa-product-view-price">{{ product.price }}</span>
+											{% endif %}													
+                                             <p class="aa-product-avilability">Avilability: <span>In stock</span></p>
+                                          </div>
+                                          <p>{{ product.description }}</p>
+                                          
+                                          <div class="aa-prod-quantity">
+                                             <form action="">
+                                                <select name="quantity" id="quantity{{ product.product_id }}">
+                                                   <option value="{{ product.minimum }}" selected="1">{{ product.minimum }}</option>
+                                                </select>
+                                             </form>
+                                             <p class="aa-prod-category">
+                                                Category: <a href="{{ category.href }}">{{ category.name }}</a>
+                                             </p>
+                                          </div>
+                                          <div class="aa-prod-view-bottom">
+                                             <a href="" onclick="cart.add('{{ product.product_id }}', '{{ product.minimum }}');" class="aa-add-to-cart-btn"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
+                                             <a href="{{ product.href }}" class="aa-add-to-cart-btn">View Details</a>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                           <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+						</div>
+                     </div>
+                     <!-- / quick view modal -->              
+
+									{% endfor %}
+
+
+
+
+                     <!-- / featured product category -->
+                     <!-- start latest product category -->
+                     <div class="tab-pane fade" id="latest">
+                        <ul class="aa-product-catg aa-latest-slider">
+                           <!-- start single product item -->
+						{% for product in latest['products'] %}
+
+
+						  <li>
+                              <figure>
+                                 <a class="aa-product-img" href="{{ product.href }}"><img src="{{ product.images[0]['image_medium'] }}" alt="polo shirt img"></a>
+                                 <a class="aa-add-card-btn"href="" onclick="cart.add('{{ product.product_id }}', '{{ product.minimum }}');"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
+                                 <figcaption>
+                                    <h4 class="aa-product-title"><a href="{{ product.href }}">{{ product.name }}</a></h4>
+									{% if  product.special %}
+                                    <span class="aa-product-price">{{ product.special }}</span><span class="aa-product-price"><del>{{ product.price }}</del></span>
+									{% else %}
+									<span class="aa-product-price">{{ product.price }}</span>
+									{% endif %}
+                                 </figcaption>
+                              </figure>
+							  
+                              <div class="aa-product-hvr-content">
+                                       <a  role="button" data-toggle="tooltip" data-placement="top" onclick="wishlist.add('{{ product.product_id }}');" title="Add to Wishlist"><span class="fa fa-heart-o"></span></a>
+                                       <a  role="button" data-toggle2="tooltip" data-placement="top" title="Quick View" data-toggle="modal" data-target="#special-view-modal-latest{{ product.product_id }}"><span class="fa fa-search"></span></a>                          
+                                    </div>
+                                    <!-- product badge -->
+									{% if  product.special %}
+                                    <span class="aa-badge aa-sale" href="#">SALE!</span>
+									{% else %}
+									<span class="aa-badge aa-hot" href="#">HOT!</span>
+									{% endif %}
+
+							  
+                           </li>
+									{% endfor %}
+
+                        </ul>
+                        <a class="aa-browse-btn" href="{{ latest['href'] }}">Browse all Product <span class="fa fa-long-arrow-right"></span></a>
+                     </div>
+					 
+					 
+						{% for product in latest['products'] %}
+					 
+					 						<!-- quick view modal -->                  
+                     <div class="modal fade" id="special-view-modal-latest{{ product.product_id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+						<div id="quick-view-modal">
+                        <div class="modal-dialog">
+                           <div class="modal-content">
+                              <div class="modal-body">
+                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                 <div class="row">
+                                    <!-- Modal view slider -->
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                       <div class="aa-product-view-slider">
+                                          <div class="simpleLens-gallery-container" id="demo-1">
+                                             <div class="simpleLens-container">
+                                                <div class="simpleLens-big-image-container">
+                                                   <a class="simpleLens-lens-image" data-lens-image="{{ product.images[0]['image_large'] }}">
+                                                   <img src="{{ product.images[0]['image_medium'] }}" class="simpleLens-big-image">
+                                                   </a>
+                                                </div>
+                                             </div>
+                                             <div class="simpleLens-thumbnails-container">
+											 
+												{% for image in product.images %}
+												
+                                                <a href="#" class="simpleLens-thumbnail-wrapper"
+                                                   data-lens-image="{{ image.image_large }}"
+                                                   data-big-image="{{ image.image_medium }}">
+                                                <img src="{{ image.image_thumb }}">
+                                                </a>
+												
+												
+												{% endfor %}												
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <!-- Modal view content -->
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                       <div class="aa-product-view-content">
+                                          <h3>{{ product.name }}</h3>
+                                          <div class="aa-price-block">
+										  {% if product.special %}
+                                             <span class="aa-product-view-price">{{ product.special }}</span>
+											{% else %}		
+											<span class="aa-product-view-price">{{ product.price }}</span>
+											{% endif %}													
+                                             <p class="aa-product-avilability">Avilability: <span>In stock</span></p>
+                                          </div>
+                                          <p>{{ product.description }}</p>
+                                          
+                                          <div class="aa-prod-quantity">
+                                             <form action="">
+                                                <select name="quantity" id="quantity{{ product.product_id }}">
+                                                   <option value="{{ product.minimum }}" selected="1">{{ product.minimum }}</option>
+                                                </select>
+                                             </form>
+                                             <p class="aa-prod-category">
+                                                Category: <a href="{{ category.href }}">{{ category.name }}</a>
+                                             </p>
+                                          </div>
+                                          <div class="aa-prod-view-bottom">
+                                             <a href="" onclick="cart.add('{{ product.product_id }}', '{{ product.minimum }}');" class="aa-add-to-cart-btn"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
+                                             <a href="{{ product.href }}" class="aa-add-to-cart-btn">View Details</a>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                           <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+						</div>
+                     </div>
+                     <!-- / quick view modal -->              
+
+									{% endfor %}
+
+                     <!-- / latest product category -->              
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</section>
+<!-- / popular section -->
+<!-- Support section -->
+<section id="aa-support">
+   <div class="container">
+      <div class="row">
+         <div class="col-md-12">
+            <div class="aa-support-area">
+               <!-- single support -->
+               <div class="col-md-4 col-sm-4 col-xs-12">
+                  <div class="aa-support-single">
+                     <span class="fa fa-truck"></span>
+                     <h4>ALL INDIA SHIPPING</h4>
+                     <P>Get Authentic & Healthy Home Made Items</P>
+                  </div>
+               </div>
+               <!-- single support -->
+               <div class="col-md-4 col-sm-4 col-xs-12">
+                  <div class="aa-support-single">
+                     <span class="fa fa-clock-o"></span>
+                     <h4>STAY HEALTHY</h4>
+                     <P>Our Home Entrepreneurs Make It Easy For You</P>
+                  </div>
+               </div>
+               <!-- single support -->
+               <div class="col-md-4 col-sm-4 col-xs-12">
+                  <div class="aa-support-single">
+                     <span class="fa fa-phone"></span>
+                     <h4>SUPPORT 24/7</h4>
+                     <P>Call Us Anytime, We Are At Your Service!</P>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</section>
+<!-- / Support section -->
+<!-- Testimonial -->
+<section id="aa-testimonial">
+   <div class="container">
+      <div class="row">
+         <div class="col-md-12">
+            <div class="aa-testimonial-area">
+               <ul class="aa-testimonial-slider">
+                  <!-- single slide -->
+               {% for image_data in testimonial %}
+
+                  <li>
+                     <div class="aa-testimonial-single">
+                        <img class="aa-testimonial-img" src="{{ image_data.image }}" alt="testimonial img">
+                        <span class="fa fa-quote-left aa-testimonial-quote"></span>
+                        <p>{{ image_data.content[0] }}</p>
+                        <div class="aa-testimonial-info">
+                           <p>{{ image_data.content[1] }}</p>
+                           <span>{{ image_data.content[2] }}</span>
+                           <a href="">{{ image_data.content[3] }}</a>
+                        </div>
+                     </div>
+                  </li>
+				  {% endfor %}
+                  <!-- single slide -->
+               </ul>
+            </div>
+         </div>
+      </div>
+   </div>
+</section>
+<!-- / Testimonial -->
+<!-- Client Brand -->
+<section id="aa-client-brand">
+   <div class="container">
+      <div class="row">
+         <div class="col-md-12">
+            <div class="aa-client-brand-area">
+               <ul class="aa-client-brand-slider">
+                 {% for image_data in entrepreneurs %}
+
+                  <li><a href="{{ image_data.link }}"><img src="{{ image_data.image }}" alt="java img"></a></li>
+				  {% endfor %}
+
+               </ul>
+            </div>
+         </div>
+      </div>
+   </div>
+</section>
+<!-- / Client Brand -->
+</html>
+{{ footer }}

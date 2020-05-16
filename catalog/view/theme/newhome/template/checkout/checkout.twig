@@ -1,0 +1,679 @@
+{{ header }}
+<!DOCTYPE html>
+<html lang="en">
+   <body>
+      <!-- catg header banner section -->
+      <section id="aa-catg-head-banner">
+         <img src="{{ banner['image'] }}" alt="fashion img">
+         <div class="aa-catg-head-banner-area">
+            <div class="container">
+               <div class="aa-catg-head-banner-content">
+                  <h2>{{ banner['content'] }}</h2>
+                  {% set count =  breadcrumbs|length %}
+                  <ol class="breadcrumb">
+                     {% for breadcrumb in breadcrumbs %}
+                     {% set count = count - 1 %}
+                     {% if count == 0 %}
+                     <li class="active"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+                     {% else %}
+                     <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+                     {% endif %}
+                     {% endfor %}
+                  </ol>
+               </div>
+            </div>
+         </div>
+      </section>
+      <!-- / catg header banner section -->
+      <!-- Cart view section -->
+      <section id="checkout">
+         <div class="container">
+            <div class="row">
+               <div class="col-md-12">
+                  <div class="checkout-area">
+                     <form action="">
+                        <div class="row">
+                           <div class="col-md-7">
+                              <div id="id_warning"></div>
+							  <div class="checkout-left">
+							  
+                                 <div class="panel-group" id="accordion">
+                                    <!-- Billing Details -->
+                                    <div class="panel panel-default aa-checkout-billaddress">
+                                       <div class="panel-heading">
+                                          <h4 class="panel-title">
+                                             <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" >
+                                             Billing Address
+                                             </a>
+                                          </h4>
+                                       </div>
+                                       <div id="collapseThree" class="panel-collapse collapse">
+                                          <div class="panel-body">
+                                             {% if addresses %}
+                                             <div class="table-responsive">
+                                                <table class="table table-bordered table-hover">
+                                                   {% for result in addresses %}
+                                                   <tr id="billing_address_rec{{ result.address_id }}">
+                                                      <td class="text-left" id="billing_address{{ result.address_id }}">{{ result.address }}</td>
+                                                      <td class="text-center">
+													  					 <div id="change_billing_div{{ result.address_id }}">
+                     <a role="button" onclick="selectBillingAddress({{ result.address_id }});" class="aa-browse-btn btn-danger" id="change_billing_button{{ result.address_id }}">Use This</a>
+					 </div>
+
+                                                      </td>
+                                                   </tr>
+                                                   {% endfor %}
+                                                </table>
+                                             </div>
+                                             {% else %}
+                                             <p>{{ text_empty }}</p>
+                                             {% endif %}
+                                             <div class="buttons clearfix">
+                                                <div class="pull-right">
+                                                   <button type="button" class="aa-browse-btn" id="button-address-list" onclick="displayAddressBlock('billing_address');">Add New</button>		
+                                                </div>
+                                             </div>
+                                             <div  id="billing_address" style="display:none;">
+                     <form  id="form-address0">
+                     <div class="row">
+                     <div class="col-md-6">
+                     <div class="aa-checkout-single-bill">
+                     <input type="text" name="add_firstname" value="{{ firstname }}" placeholder="{{ entry_firstname }}" id="input-firstname0" class="form-control" />
+                     </div>                             
+                     </div>
+                     <div class="col-md-6">
+                     <div class="aa-checkout-single-bill">
+                     <input type="text" name="add_lastname" value="{{ lastname }}" placeholder="{{ entry_lastname }}" id="input-lastname0" class="form-control" />                              </div>
+                     </div>
+                     </div> 
+                     <div class="row">
+                     <div class="col-md-12">
+                     <div class="aa-checkout-single-bill">
+                     <input type="text" name="address_1" value="{{ address_1 }}" placeholder="{{ entry_address_1 }}" id="input-address_10" class="form-control" />
+                     </div>                             
+                     </div>                            
+                     </div>  
+                     <div class="row">
+                     <div class="col-md-12">
+                     <div class="aa-checkout-single-bill">
+                     <input type="text" name="address_2" value="{{ address_2 }}" placeholder="{{ entry_address_2 }}" id="input-address_20" class="form-control" />
+                     </div>                             
+                     </div>                            
+                     </div>  
+                     <div class="row">
+                     <div class="col-md-6">
+                     <div class="aa-checkout-single-bill">
+                     <input type="text" name="city" value="{{ city }}" placeholder="{{ entry_city }}" id="input-city0" class="form-control" />
+                     </div>                             
+                     </div>
+                     <div class="col-md-6">
+                     <div class="aa-checkout-single-bill">
+                     <input type="text" name="postcode0" value="{{ postcode }}" placeholder="{{ entry_postcode }}" id="input-postcode0" class="form-control" />
+                     </div>
+                     </div>
+                     </div> 
+                     <div class="row">
+                     <div class="col-md-6">
+                     <div class="aa-checkout-single-bill">
+                     <select name="country_id" id="input-country0" onchange="getZone(0);" class="form-control">
+                     <option value="">{{ text_select }}</option>
+                     {% for country in countries %}
+                     {% if country.country_id == country_id %}
+                     <option value="{{ country.country_id }}" >{{ country.name }}</option>
+                     {% else %}
+                     <option value="{{ country.country_id }}">{{ country.name }}</option>
+                     {% endif %}
+                     {% endfor %}
+                     </select>
+                     </div>                             
+                     </div> 
+                     <div class="col-md-6">
+                     <div class="aa-checkout-single-bill">
+                     <select name="zone_id0" id="input-zone0" class="form-control">
+                     </select>
+                     </div>                             
+                     </div>                            
+                     </div>
+                     <div class="pull-right">
+                     <button type="button" class="aa-browse-btn" id="button-address0" onclick="saveAddress(0);">Save</button>		
+                     </div>
+                     </form>
+                     </div> 
+                     </div>
+                     </div>
+                     </div>
+
+                     {% if shipping_required %}
+					 <!-- Shipping Address -->
+                     <div class="panel panel-default aa-checkout-billaddress">
+                     <div class="panel-heading">
+                     <h4 class="panel-title">
+                     <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour">
+                     Shippping Address
+                     </a>
+                     </h4>
+                     </div>
+					 
+					 
+					 
+                     <div id="collapseFour" class="panel-collapse collapse">
+                     <div class="panel-body">
+                     {% if addresses %}
+                     <div class="table-responsive">
+                     <table class="table table-bordered table-hover">
+                     {% for result in addresses %}
+                     <tr id="shipping_address_rec{{ result.address_id }}">
+                     <td class="text-left" id="shipping_address{{ result.address_id }}">{{ result.address }}</td>
+                     <td class="text-center">
+					 <div id="change_shipping_div{{ result.address_id }}">
+                     <a role="button" onclick="selectShippingAddress({{ result.address_id }});" class="aa-browse-btn btn-danger" id="change_shipping_button{{ result.address_id }}">Use This</a>
+					 </div>
+                     </td>
+                     </tr>
+                     {% endfor %}
+                     </table>
+                     </div>
+                     {% else %}
+                     <p>{{ text_empty }}</p>
+                     {% endif %}
+                     <div class="buttons clearfix">
+                     <div class="pull-right">
+                     <button type="button" class="aa-browse-btn" id="button-shipping-address" onclick="displayAddressBlock('shipping_address');">Add New</button>		
+                     </div>
+                     </div>
+                     <div  id="shipping_address" style="display:none;">
+                     <form id="form-address-1">
+                     <div class="row">
+                     <div class="col-md-6">
+                     <div class="aa-checkout-single-bill">
+                     <input type="text" name="add_firstname" value="{{ firstname }}" placeholder="{{ entry_firstname }}" id="input-firstname-1" class="form-control" />
+                     </div>                             
+                     </div>
+                     <div class="col-md-6">
+                     <div class="aa-checkout-single-bill">
+                     <input type="text" name="add_lastname" value="{{ lastname }}" placeholder="{{ entry_lastname }}" id="input-lastname-1" class="form-control" />                              </div>
+                     </div>
+                     </div> 
+                     <div class="row">
+                     <div class="col-md-12">
+                     <div class="aa-checkout-single-bill">
+                     <input type="text" name="address_1" value="{{ address_1 }}" placeholder="{{ entry_address_1 }}" id="input-address_1-1" class="form-control" />
+                     </div>                             
+                     </div>                            
+                     </div>  
+                     <div class="row">
+                     <div class="col-md-12">
+                     <div class="aa-checkout-single-bill">
+                     <input type="text" name="address_2" value="{{ address_2 }}" placeholder="{{ entry_address_2 }}" id="input-address_2-1" class="form-control" />
+                     </div>                             
+                     </div>                            
+                     </div>  
+                     <div class="row">
+                     <div class="col-md-6">
+                     <div class="aa-checkout-single-bill">
+                     <input type="text" name="city" value="{{ city }}" placeholder="{{ entry_city }}" id="input-city-1" class="form-control" />
+                     </div>                             
+                     </div>
+                     <div class="col-md-6">
+                     <div class="aa-checkout-single-bill">
+                     <input type="text" name="postcode0" value="{{ postcode }}" placeholder="{{ entry_postcode }}" id="input-postcode-1" class="form-control" />
+                     </div>
+                     </div>
+                     </div> 
+                     <div class="row">
+                     <div class="col-md-6">
+                     <div class="aa-checkout-single-bill">
+                     <select name="country_id" id="input-country-1" onchange="getZone(-1);" class="form-control">
+                     <option value="">{{ text_select }}</option>
+                     {% for country in countries %}
+                     {% if country.country_id == country_id %}
+                     <option value="{{ country.country_id }}" >{{ country.name }}</option>
+                     {% else %}
+                     <option value="{{ country.country_id }}">{{ country.name }}</option>
+                     {% endif %}
+                     {% endfor %}
+                     </select>
+                     </div>                             
+                     </div> 
+                     <div class="col-md-6">
+                     <div class="aa-checkout-single-bill">
+                     <select name="zone_id-1" id="input-zone-1" class="form-control">
+                     </select>
+                     </div>                             
+                     </div>                            
+                     </div>
+                     <div class="pull-right">
+                     <button type="button" class="aa-browse-btn" id="button-address-1" onclick="saveAddress(-1);">Save</button>		
+                     </div>
+                     </form>
+                     </div> 
+                     </div>
+                     </div>
+                     </div>
+                     {% endif %}
+					 </div>
+                    
+					
+					
+					</div>
+					<div class="checkout-right">
+												<h4>Order Summary</h4>
+							<div class="aa-order-summary-area">
+								<table class="table table-responsive">
+									<thead>
+										<tr>
+										 <th>Product</th>
+										 <th>Total</th>
+										</tr>
+									</thead>
+									 <tbody>
+									 {% for product in products %}
+										<tr>
+											 <td class="text-left">{{ product.name }} <strong> x  {{ product.quantity }}</strong></td>
+											 <td>{{ product.total }}</td>
+										</tr>
+									{% endfor %}
+									{% for voucher in vouchers %}
+										<tr>
+											 <td class="text-left">{{ voucher.description }} </td>
+											 <td>{{ voucher.amount }}</td>
+										</tr>
+										{% endfor %}
+									<tr>
+
+									</tbody>
+
+									<tfoot>
+																		<td></td><td></td>
+										</tr>
+
+										{% for total in totals %}
+										<tr style="background-color:#f1f6f8;">
+											 <th class="text-left">{{ total.title }}</th>
+											 <td>{{ total.text }}</td>
+										</tr>
+										{% endfor %}
+									</tfoot>
+								</table>
+							</div>
+						</div>
+
+					
+					
+                     </div>
+                     <div class="col-md-5">
+						<div class="checkout-right">
+							{% for shipping_method in shipping_methods %}
+							<h4>Shipping Method</h4>
+							{% for quote in shipping_method.quote %}
+<div class="radio">
+  <label> {% if quote.code == code or not code %}
+    {% set code = quote.code %}
+    <input type="radio" name="ship_method"  value="{{ quote.code }}" checked="checked" />
+    {% else %}
+    <input type="radio" name="ship_method"  value="{{ quote.code }}" />
+    {% endif %}
+    {{ quote.title }} - {{ quote.text }}</label>
+</div>					
+{% endfor %}	
+{% endfor %}	
+						<h4>Payment Method</h4>
+                     <div class="aa-payment-method">    
+					{% for payment_method in payment_methods %}					 
+                    <label for="paymentmethod">
+						<input type="radio" id="payment{{ payment_method.code }}" onclick="setPaymentMethod();" name="pmt_method" value="{{ payment_method.code }}">
+						
+						{{ payment_method.title }}    
+						{% if payment_method.terms %}    
+							({{ payment_method.terms }})    
+						{% endif %} 
+					</label>
+        			{% endfor %}
+
+{% if text_agree %}
+<div class="buttons">
+  <div class="pull-right">{{ text_agree }}
+    {% if agree %}
+    <input type="checkbox" name="agree" id="tnc_agree" value="1" checked="checked" />
+    {% else %}
+    <input type="checkbox" name="agree" id="tnc_agree" value="1" />
+    {% endif %}
+  </div>
+</div>
+{% endif %} 
+<br><br>
+
+					
+					<img src="https://www.paypalobjects.com/webstatic/mktg/logo/AM_mc_vs_dc_ae.jpg" border="0" alt="PayPal Acceptance Mark">    
+                     <input type="button" onclick="placeOrder();" value="Place Order" id="place_order_btn" class="aa-browse-btn" style="width:100%">                
+		        
+					</div>
+                     
+					 </div>
+                     </div>
+                     </div>
+                     </form>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </section>
+	  
+	  <div id="payment_page"></div>
+      <!-- / Cart view section -->
+
+					 <input type="hidden"  id="input-billing_address" value="0" class="form-control" />					 
+					 <input type="hidden"  id="input-shipping_address" value="0" class="form-control" />
+					 <input type="hidden"  id="input-pmt_method" value="0" class="form-control" />
+					 <input type="hidden"  id="input-ship_method" value="0" class="form-control" />
+
+      <script>
+         function displayAddressBlock(block_id){
+         //	alert("block id :"+block_id);
+         document.getElementById("shipping_address").style.display="none";	
+         document.getElementById("billing_address").style.display="none";	
+         document.getElementById(block_id).style.display="block";
+         	
+         }
+      </script>
+<script>
+function selectShippingAddress(address_id){
+// 	alert("block id :"+address_id);
+	document.getElementById("input-shipping_address").value = address_id;	
+	
+	{% for address in addresses %}
+		document.getElementById("shipping_address_rec"+{{ address.address_id }}).style.backgroundColor = "white";
+		document.getElementById("change_shipping_div"+{{ address.address_id }}).style.display  = "block";
+	{% endfor %}
+	
+	document.getElementById("shipping_address_rec"+address_id).style.backgroundColor = "#d2d2e9";
+	document.getElementById("change_shipping_div"+address_id).style.display  = "none";
+
+	//for shipping method
+	var element = document.getElementsByName('ship_method'); 
+    
+	var shipping_method;
+	
+	//alert("1 :"+element.length);			  
+	for(i = 0; i < element.length; i++) { 
+		if(element[i].checked) {
+			document.getElementById("input-ship_method").value = element[i].value; 
+			shipping_method = element[i].value;
+		}
+	}
+	//alert("shipping_method :"+shipping_method);			  
+	data={shipping_method:shipping_method};
+	
+
+
+
+
+	//set shipping address & shipping method in the session			
+	$.ajax({
+	  url: 'index.php?route=checkout/checkout/setAddressSession&address_id='+address_id + '&address_type=S',
+	  type: 'post',
+	  dataType: 'json',
+	  data: data,
+	  success: function(json) {
+		if (json['error']) {
+			html = '';
+			for ( i=0; i < json['error'].length; i++){
+				html += '<div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> ' + json['error'][i] + '</div>';
+			}
+			$('#id_warning').after(html);
+		}
+	  },
+	  error: function (xhr, ajaxOptions, thrownError) {
+		alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+	  }
+	});
+
+
+ }
+</script>
+
+      <script>
+         function selectBillingAddress(address_id){
+        // 	alert("block id :"+address_id);
+         document.getElementById("input-billing_address").value = address_id;	
+		// alert("1");
+			{% for address in addresses %}
+			//alert("2");
+				document.getElementById("billing_address_rec"+{{ address.address_id }}).style.backgroundColor = "white";
+			//		alert("2.1");
+				document.getElementById("change_billing_div"+{{ address.address_id }}).style.display  = "block";
+				//	alert("2.2");
+			{% endfor %}
+//			alert("3");
+			document.getElementById("billing_address_rec"+address_id).style.backgroundColor = "#d2d2e9";
+	//		alert("4");
+			document.getElementById("change_billing_div"+address_id).style.display  = "none";
+//set billing address in the session			
+				$.ajax({
+         		  url: 'index.php?route=checkout/checkout/setAddressSession&address_id='+address_id + '&address_type=B',
+         		  type: 'post',
+         		  dataType: 'json',
+         		  success: function(json) {
+         			if (json['error']) {
+         				html = '';
+         				for ( i=0; i < json['error'].length; i++){
+         					html += '<div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> ' + json['error'][i] + '</div>';
+         				}
+         				$('#id_warning').after(html);
+         			}      
+         		  },
+         		  error: function (xhr, ajaxOptions, thrownError) {
+         			alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+         		  }
+         		});
+
+
+			
+			
+         }
+      </script>
+
+      <script>
+         function saveAddress(address_id){
+         	//alert("inside saveAddress");	
+				
+				var add_firstname = document.getElementById("input-firstname"+address_id).value;
+				var add_lastname = document.getElementById("input-lastname"+address_id).value;
+         		var address_1 = document.getElementById("input-address_1"+address_id).value;
+				var address_2 = document.getElementById("input-address_2"+address_id).value;
+				var city = document.getElementById("input-city"+address_id).value;
+				var postcode = document.getElementById("input-postcode"+address_id).value;
+				var country_id = document.getElementById("input-country"+address_id).value;
+				var zone_id = document.getElementById("input-zone"+address_id).value;
+				
+				var data = {add_firstname:add_firstname, add_lastname:add_lastname, address_1:address_1, address_2:address_2, city:city, postcode:postcode, country_id:country_id, zone_id:zone_id};
+				
+				$.ajax({
+         		  url: 'index.php?route=account/account/saveAddress&address_id='+address_id,
+         		  type: 'post',
+         		  dataType: 'json',
+         		  data: data,
+         		  beforeSend: function() {
+         			$('#button-address'+address_id).button('loading');
+         		  },
+         		  complete: function() {
+         			$('#button-address'+address_id).button('reset');
+         		  },
+         		  success: function(json) {
+         			$('.alert-dismissible').remove();
+         			
+         			if (json['error']) {
+         				html = '';
+         				for ( i=0; i < json['error'].length; i++){
+         					html += '<div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> ' + json['error'][i] + '</div>';
+         				}
+         				$('#id_warning').after(html);
+         			} else {
+         				$('#id_warning').after('<div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> ' + json['success'] + '</div>');
+         				window.location = json['redirect_chkout'] + '&display_block=address';
+         			}      
+         		  },
+         		  error: function (xhr, ajaxOptions, thrownError) {
+         			alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+         		  }
+         		});
+         	
+         }
+      </script>
+      <script>
+         function getZone(address_id){
+         var country_id = document.getElementById("input-country"+address_id).value;
+         
+         	$.ajax({
+         		url: 'index.php?route=account/account/country&country_id=' + country_id,
+         		dataType: 'json',
+         		beforeSend: function() {
+         			$('select[name=\'country_id\']').prop('disabled', true);
+         		},
+         		complete: function() {
+         			$('select[name=\'country_id\']').prop('disabled', false);
+         		},
+         		success: function(json) {
+         			if (json['postcode_required'] == '1') {
+         				$('input[name=\'postcode'+ address_id +'\']').parent().parent().addClass('required');
+         			} else {
+         				$('input[name=\'postcode'+ address_id +'\']').parent().parent().removeClass('required');
+         			}
+         			
+         			html = '<option value="">{{ text_select }}</option>';
+         			
+         			if (json['zone'] && json['zone'] != '') {
+         				for (i = 0; i < json['zone'].length; i++) {
+         					html += '<option value="' + json['zone'][i]['zone_id'] + '"';
+         					
+         					if (json['zone'][i]['zone_id'] == '{{ zone_id }}') {
+         						html += ' selected="selected"';
+         					}
+         					
+         					html += '>' + json['zone'][i]['name'] + '</option>';
+         				}
+         			} else {
+         				html += '<option value="0" selected="selected">{{ text_none }}</option>';
+         			}
+         			
+         			$('select[name=\'zone_id'+ address_id +'\']').html(html);
+         		},
+         		error: function(xhr, ajaxOptions, thrownError) {
+         			alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+         		}
+         	});
+         }
+         
+         $('select[name=\'country_id\']').trigger('change');
+      </script>
+
+<script>
+function placeOrder(){
+	//alert("inside place order");
+	var html = '';
+	var msg = '';
+	var billing_address_id = document.getElementById("input-billing_address").value;
+
+	if (billing_address_id == 0){
+		msg = 'Please select a billing address';
+		html += '<div class="col-md-12 text-center" style="color:red"><b>' + msg + '</b></div>';
+	}
+
+	var shipping_address_id = document.getElementById("input-shipping_address").value;
+	
+	{% if shipping_required %}
+	
+		if (shipping_address_id ==0){
+			msg = 'Please select a shipping address';
+			html += '<div class="col-md-12 text-center" style="color:red"><b>' + msg + '</b></div>';
+		}
+	{% endif %}
+
+	var my_pmt_method = document.getElementById("input-pmt_method").value;
+
+	if ( my_pmt_method== 0){
+		msg = 'Please select a Payment Method';
+		html += '<div class="col-md-12 text-center" style="color:red"><b>' + msg + '</b></div>';
+	}
+
+	if (!(document.getElementById("tnc_agree").checked)){
+		msg = 'Please Accept Terms & Conditions';
+		html += '<div class="col-md-12 text-center" style="color:red"><b>' + msg + '</b></div>';
+	}
+	
+	if (html != ''){
+		$('#id_warning').html(html).show('fast').delay(5000).hide('fast');
+		return;
+	}
+	
+	data = {billing_address_id:billing_address_id, shipping_address_id:shipping_address_id, my_pmt_method:my_pmt_method};
+	
+	
+		$.ajax({
+		  url: 'index.php?route=checkout/checkout/placeOrder',
+		  type: 'post',
+		  dataType: 'json',
+		  data: data,
+		  beforeSend: function() {
+			$('#place_order_btn').button('loading');
+		  },
+		  complete: function() {
+			$('#place_order_btn').button('reset');
+		  },
+		  success: function(json) {
+			$('.alert-dismissible').remove();
+			
+			if (json['error']) {
+				html = '';
+				for ( i=0; i < json['error'].length; i++){
+					html += '<div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> ' + json['error'][i] + '</div>';
+				}
+				$('#id_warning').after(html);
+			} else {
+				//alert("here");
+				window.location = json['redirect'];
+			}      
+		  },
+		  error: function (xhr, ajaxOptions, thrownError) {
+			alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+		  }
+		});
+	
+}
+</script>
+<script>
+function setPaymentMethod(){
+	var element = document.getElementsByName('pmt_method'); 
+	var payment_method;
+			  
+	for(i = 0; i < element.length; i++) { 
+		if(element[i].checked) {
+			document.getElementById("input-pmt_method").value = element[i].value; 
+			payment_method = element[i].value;
+		}
+	}
+	
+	$.ajax({
+	  url: 'index.php?route=checkout/checkout/setPaymentMethod&payment_method=' + payment_method,
+	  type: 'post',
+	  dataType: 'json',
+	  success: function(json) {
+		if (json['error']) {
+			html = '';
+			for ( i=0; i < json['error'].length; i++){
+				html += '<div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> ' + json['error'][i] + '</div>';
+			}
+			$('#id_warning').after(html);
+		}      
+	  },
+	  error: function (xhr, ajaxOptions, thrownError) {
+		alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+	  }
+	});
+
+}
+</script>  
+
+   </body>
+</html>
+{{ footer }}

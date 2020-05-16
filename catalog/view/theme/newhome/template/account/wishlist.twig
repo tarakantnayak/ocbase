@@ -1,0 +1,106 @@
+{{ header }}
+<!DOCTYPE html>
+<html lang="en">
+  
+  <body>  
+  
+   <!-- catg header banner section -->
+      <section id="aa-catg-head-banner">
+         <img src="{{ banner['image'] }}" alt="fashion img">
+         <div class="aa-catg-head-banner-area">
+            <div class="container">
+               <div class="aa-catg-head-banner-content">
+                  <h2>{{ banner['content'] }}</h2>
+                  {% set count =  breadcrumbs|length %}
+                  <ol class="breadcrumb">
+                     {% for breadcrumb in breadcrumbs %}
+                     {% set count = count - 1 %}
+                     {% if count == 0 %}
+                     <li class="active"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+                     {% else %}
+                     <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+                     {% endif %}
+                     {% endfor %}
+                  </ol>
+               </div>
+            </div>
+         </div>
+      </section>
+      <!-- / catg header banner section -->
+
+ <!-- Cart view section -->
+ <section id="cart-view">
+   <div class="container">
+     <div class="row">
+       <div class="col-md-12">
+         <div class="cart-view-area">
+           <div class="cart-view-table aa-wishlist-table">
+		   {% if products %}
+             <form action="">
+               <div class="table-responsive">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Action</th>
+                        <th>Image</th>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Move To Cart</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+					{% for product in products %}
+                      <tr>
+                        <td><a class="remove" href="{{ product.remove }}"><fa class="fa fa-close"></fa></a></td>
+                        <td><a href="{{ product.href }}"><img src="{{ product.thumb }}" alt="img"></a></td>
+                        <td><a class="aa-cart-title" href="{{ product.href }}">{{ product.name }}</a></td>
+                        <td>{{ product.price }}</td>
+                        <td><a class="add" role="button" onclick="addToCart('{{ product.product_id }}', '{{ product.remove }}');"><fa class="fa fa-plus"></fa></a></td>
+                      </tr>
+					  {% endfor %}
+                      </tbody>
+                  </table>
+                </div>
+             </form>             
+          {% else %}
+			
+			<section id="aa-subscribe">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="aa-subscribe-area">
+            <h3>{{ text_error }}</h3>
+			
+			<div class="aa-prod-view-bottom">
+               <a class="aa-add-to-cart-btn" href="{{ continue }}" >Continue Shopping</a>
+            </div>
+			
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+				
+           {% endif %}
+		  
+		  
+		  
+		  </div>
+         </div>
+       </div>
+     </div>
+   </div>
+ </section>
+ <!-- / Cart view section -->
+
+<script>
+function addToCart(product_id, remove_link){
+	//alert("inside addtocart");
+	cart.add(product_id);
+	window.location = remove_link;
+}
+</script>
+
+  </body>
+</html>
+{{ footer }}

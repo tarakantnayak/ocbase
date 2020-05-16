@@ -1,0 +1,141 @@
+
+{% if subscribed != 1 %}
+  <!-- Subscribe section -->
+  <section id="aa-subscribe">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="aa-subscribe-area">
+            <h3>Subscribe our newsletter </h3>
+            <p>You will get details about new products, discounts & offers!</p>
+            <form action="" class="aa-subscribe-form">
+              <input type="email" name="" id="" placeholder="Enter your Email">
+              <input type="submit" value="Subscribe">
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- / Subscribe section -->
+ {% endif %}
+
+  <!-- footer -->  
+
+  <footer id="aa-footer">
+    <!-- footer bottom -->
+    <div class="aa-footer-top">
+     <div class="container">
+        <div class="row">
+        <div class="col-md-12">
+          <div class="aa-footer-top-area">
+            <div class="row">
+              <div class="col-md-3 col-sm-6">
+                <div class="aa-footer-widget">
+                  <h3>Main Menu</h3>
+                  <ul class="aa-footer-nav">
+                    <li><a href="{{ home }}">Home</a></li>
+                    <li><a href="{{ entrepreneurs }}">Our Entrprneurs</a></li>
+                    <li><a href="{{ products }}">Our Products</a></li>
+                    <li><a href="{{ contact }}">Contact Us</a></li>
+                    <li><a href="{{ sitemap }}">Site Map</a></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-md-3 col-sm-6">
+                <div class="aa-footer-widget">
+                  <div class="aa-footer-widget">
+                    <h3>Knowledge Base</h3>
+                    <ul class="aa-footer-nav">
+                         {% for information in informations %}
+                          <li><a href="{{ information.href }}">{{ information.title }}</a></li>
+                          {% endfor %}
+                          <li><a href="{{ faq }}">FAQ</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3 col-sm-6">
+                <div class="aa-footer-widget">
+                  <div class="aa-footer-widget">
+                    <h3>{{ text_account }}</h3>
+                    <ul class="aa-footer-nav">
+                      <li><a href="{{ account }}">{{ text_account }}</a></li>
+                      <li><a href="{{ order }}">{{ text_order }}</a></li>
+                      <li><a href="{{ wishlist }}">{{ text_wishlist }}</a></li>
+                      <li><a href="{{ newsletter }}">{{ text_newsletter }}</a></li>
+                      <li><a href="{{ affiliate }}">{{ text_affiliate }}</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3 col-sm-6">
+                <div class="aa-footer-widget">
+                  <div class="aa-footer-widget">
+                    <h3>Contact Us</h3>
+                    <address>
+                      <p> #503, Thubarahalli, Bangalore</p>
+                      <p><span class="fa fa-phone"></span>+91 824-913-0291</p>
+                      <p><span class="fa fa-envelope"></span>enquiry@homepreneur.in</p>
+                    </address>
+                    <div class="aa-footer-social">
+                      <a href="#"><span class="fa fa-facebook"></span></a>
+                      <a href="#"><span class="fa fa-twitter"></span></a>
+                      <a href="#"><span class="fa fa-google-plus"></span></a>
+                      <a href="#"><span class="fa fa-youtube"></span></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+     </div>
+    </div>
+    <!-- footer-bottom -->
+    <div class="aa-footer-bottom">
+      <div class="container">
+        <div class="row">
+        <div class="col-md-12">
+          <div class="aa-footer-bottom-area">
+            <p>Designed by <a href="http://www.markups.io/">MarkUps.io</a></p>
+            <div class="aa-footer-payment">
+              <span class="fa fa-cc-mastercard"></span>
+              <span class="fa fa-cc-visa"></span>
+              <span class="fa fa-paypal"></span>
+              <span class="fa fa-cc-discover"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+  </footer>
+  <!-- / footer -->
+
+  <!-- jQuery library -->
+ 
+  <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+  <script src="catalog/view/javascript/jquery/jquery-2.1.1.min.js" type="text/javascript"></script>
+
+<script src="catalog/view/theme/newhome/newstyle/common.js" type="text/javascript"></script>
+
+  <!-- Include all compiled plugins (below), or include individual files as needed -->
+  <script src="catalog/view/theme/newhome/newstyle/js/bootstrap.js"></script>  
+  <!-- SmartMenus jQuery plugin -->
+  <script type="text/javascript" src="catalog/view/theme/newhome/newstyle/js/jquery.smartmenus.js"></script>
+  <!-- SmartMenus jQuery Bootstrap Addon -->
+  <script type="text/javascript" src="catalog/view/theme/newhome/newstyle/js/jquery.smartmenus.bootstrap.js"></script>  
+  <!-- To Slider JS -->
+  <script src="catalog/view/theme/newhome/newstyle/js/sequence.js"></script>
+  <script src="catalog/view/theme/newhome/newstyle/js/sequence-theme.modern-slide-in.js"></script>  
+  <!-- Product view slider -->
+  <script type="text/javascript" src="catalog/view/theme/newhome/newstyle/js/jquery.simpleGallery.js"></script>
+  <script type="text/javascript" src="catalog/view/theme/newhome/newstyle/js/jquery.simpleLens.js"></script>
+  <!-- slick slider -->
+  <script type="text/javascript" src="catalog/view/theme/newhome/newstyle/js/slick.js"></script>
+  <!-- Price picker slider -->
+  <script type="text/javascript" src="catalog/view/theme/newhome/newstyle/js/nouislider.js"></script>
+  <!-- Custom js -->
+  <script src="catalog/view/theme/newhome/newstyle/js/custom.js"></script> 

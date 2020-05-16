@@ -1,0 +1,335 @@
+{{ header }}
+<!DOCTYPE html>
+<html lang="en">
+  <body>
+   <!-- catg header banner section -->
+      <section id="aa-catg-head-banner">
+         <img src="{{ banner['image'] }}" alt="fashion img">
+         <div class="aa-catg-head-banner-area">
+            <div class="container">
+               <div class="aa-catg-head-banner-content">
+                  <h2>{{ banner['content'] }}</h2>
+                  {% set count =  breadcrumbs|length %}
+                  <ol class="breadcrumb">
+                     {% for breadcrumb in breadcrumbs %}
+                     {% set count = count - 1 %}
+                     {% if count == 0 %}
+                     <li class="active"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+                     {% else %}
+                     <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+                     {% endif %}
+                     {% endfor %}
+                  </ol>
+               </div>
+            </div>
+         </div>
+      </section>
+      <!-- / catg header banner section -->
+ <!-- Cart view section -->
+ <section id="aa-myaccount">
+   <div class="container">
+     <div class="row">
+
+       <div class="col-md-12">
+        <div class="aa-myaccount-area">         
+            	   {% if success %}
+  <div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> {{ success }}</div>
+  {% endif %}
+  {% if error_warning %}
+  <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}</div>
+  {% endif %}
+
+			<div class="row" id="account_login">
+              <div class="col-md-6">
+			  
+                <div class="aa-myaccount-login">
+                <h4>Login</h4>
+                 <form action="{{ action }}" class="aa-login-form" method="post" enctype="multipart/form-data">
+                  <label for="">Mobile or Email address<span>*</span></label>
+                   <input type="text" name="user_name"  placeholder="Mobile or email">
+                   <label for="">Password<span>*</span></label>
+                    <input type="password" name="password" placeholder="Password">
+                    <button type="submit" class="aa-browse-btn">Login</button>
+                    <label class="rememberme" for="rememberme"><input type="checkbox" id="rememberme"> Remember me </label>
+                    <p class="aa-lost-password"><a role="button" onclick="displayBlock('P');">Lost your password?</a></p>
+                  </form>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="aa-myaccount-register">                 
+                 <h4>Register</h4>
+                 <form action="{{ register }}" class="aa-login-form" method="post" enctype="multipart/form-data">
+                    <label for="">Mobile or Email address<span>*</span> &nbsp;(Mobile applicable only for Indian customers)</label>
+                    <input type="text" name="user_name"  placeholder="Mobile or email">
+				                 {% if error_user_name %}
+              <div class="text-danger">{{ error_user_name }}</div>
+              {% endif %} 
+
+                    <label for="">Password<span>*</span></label>
+                    <input type="password" name="password" placeholder="Password">
+              {% if error_password %}
+              <div class="text-danger">{{ error_password }}</div>
+              {% endif %} 					
+					<label for="">{{ entry_newsletter }}</label>
+					<div> 
+					{% if newsletter %}
+						<label>
+							<input type="radio" name="newsletter" value="1" />{{ text_yes }}
+						</label>
+						<label>
+							<input type="radio" name="newsletter" value="0" checked="checked" />{{ text_no }}
+						</label>
+					{% else %}
+						<label>
+							<input type="radio" name="newsletter" value="1" checked="checked" />{{ text_yes }}
+						</label>
+						<label>
+							<input type="radio" name="newsletter" value="0"  />{{ text_no }}
+						</label>
+					{% endif %}
+					</div>
+          
+					       
+        <div class="buttons">
+          <div class="pull-left">{{ text_agree }}
+            {% if agree %}
+            <input type="checkbox" name="agree" value="1" checked="checked" />
+            {% else %}
+            <input type="checkbox" name="agree" value="1" />
+            {% endif %}
+            &nbsp;
+            
+          </div>
+        </div>
+
+					
+					
+                    <button type="submit" class="aa-browse-btn">Register</button>                    
+                  </form>
+                </div>
+              </div>
+            </div>  
+
+			<div id="forgot_password" style="display:none;">
+
+			<div class="row" id="user_name_block">
+              
+			  <div class="col-md-6">
+			  
+                <div class="aa-myaccount-login" >
+                <h4>Forgot Password</h4>
+                 <form class="aa-login-form" name="form_send_otp" >
+                  <label for="">Enter Your Registered Mobile or Email address<span>*</span></label>
+					<input type="text" name="user_name" id="send_otp_user_name" placeholder="Mobile or email">
+				<div id="send_otp_message"></div>	
+
+                   <button type="button" class="aa-browse-btn" id="button-send-otp" onclick="sendOTP();">Send OTP</button>
+				   <button type="button" class="aa-browse-btn" onclick="displayBlock('L');">Return To Login / Register</button>
+				</form>
+				</div>
+				</div>
+				</div>
+				<div class="row"  id="otp_block">
+				<div class="col-md-6">
+			  
+                <div class="aa-myaccount-login">
+                 <form class="aa-login-form" name="form_submit_otp">
+                  <label for="">Enter The OTP Sent To Your Registered Mobile or Email address<span>*</span></label>
+					<input type="text" name="otp" id="input-otp" placeholder="One Time Password"> 
+					<input type="hidden" name="customer_id" id="customer_id">  
+					<div id="submit_otp_message"></div>
+                   <button type="button" class="aa-browse-btn" id="button-submit-otp" onclick="validateOTP();">Submit OTP</button>
+					<button type="button" class="aa-browse-btn" onclick="displayBlock('L');">Return To Login / Register</button>
+				 </form>
+				</div>
+				</div>
+				</div>
+
+				<div class="row"  id="new_password_block">
+				<div class="col-md-6">
+			  <h4>New Password</h4>
+                <div class="aa-myaccount-login">
+                 <form class="aa-login-form" name="form_change_password">
+                  <label for="">Enter New Password<span>*</span></label>
+					<input type="password" name="new_password1" id="new_password1"  placeholder="Enter New Password">                   
+
+        			<input type="password" name="new_password2"  id="new_password2" placeholder="Confirm New Password">                   
+					<div id="change_pwd_message"></div>
+						 <button type="button" class="aa-browse-btn" id="button-change-pwd" onclick="changePassword();">Change Password</button>
+						 <button type="button" class="aa-browse-btn" onclick="displayBlock('L');">Return To Login / Register</button>
+
+				 </form>
+				</div>
+				</div>
+				</div>
+	</div>
+              
+            </div>          
+
+			
+         </div>
+       </div>
+     </div>
+   </div>
+ </section>
+ <!-- / Cart view section -->
+
+<script>
+function displayBlock(block_id){
+//	alert("block id :"+block_id);
+	if (block_id == 'P') {  //password block
+	document.getElementById("forgot_password").style.display="block";	
+	document.getElementById("user_name_block").style.display="block";	
+
+	document.getElementById("account_login").style.display="none";
+	document.getElementById("otp_block").style.display="none";
+	document.getElementById("new_password_block").style.display="none";
+	
+	document.getElementById("new_password_block").style.display="none";
+	} else if (block_id == 'O') { //OTP block
+	document.getElementById("forgot_password").style.display="block";	
+	document.getElementById("otp_block").style.display="block";
+	
+	document.getElementById("user_name_block").style.display="none";
+	document.getElementById("account_login").style.display="none";
+	document.getElementById("new_password_block").style.display="none";
+	} else if (block_id == 'N') { //New Password
+	document.getElementById("forgot_password").style.display="block";	
+	document.getElementById("new_password_block").style.display="block";
+
+	document.getElementById("user_name_block").style.display="none";
+	document.getElementById("account_login").style.display="none";
+	document.getElementById("otp_block").style.display="none";
+	
+	} else if (block_id == 'L') { //Login Block
+	document.getElementById("account_login").style.display="block";
+
+	document.getElementById("forgot_password").style.display="none";
+	document.getElementById("send_otp_user_name").value = '';
+	}
+	
+	
+}
+</script>
+
+<script>
+
+function sendOTP(){
+	var user_name = document.getElementById("send_otp_user_name").value;
+	$.ajax({
+      url: 'index.php?route=account/register/sendOTP&user_name='+user_name,
+      type: 'post',
+      dataType: 'json',
+      beforeSend: function() {
+      	$('#button-send-otp').button('loading');
+      },
+      complete: function() {
+      	$('#button-send-otp').button('reset');
+      },
+
+      success: function(json) {
+      	$('.alert-dismissible').remove();
+      
+      	if (json['error']) {
+			//alert(json['error']);
+			document.getElementById("send_otp_user_name").value = '';
+      		$('#send_otp_message').after('<div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> ' + json['error'] + '</div>');
+      	} else {
+			displayBlock('O');
+			document.getElementById("customer_id").value = json['customer_id'];
+		}
+      },
+      error: function (xhr, ajaxOptions, thrownError) {
+      	alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+      }
+    });
+
+}
+</script>
+
+<script>
+function validateOTP(){
+//if validated
+	var otp = document.getElementById("input-otp").value;
+	var customer_id = document.getElementById("customer_id").value;
+	
+	$.ajax({
+      url: 'index.php?route=account/register/validateOTP&otp=' + otp + '&customer_id='+customer_id,
+      type: 'post',
+      dataType: 'json',
+      beforeSend: function() {
+      	$('#button-submit-otp').button('loading');
+      },
+      complete: function() {
+      	$('#button-submit-otp').button('reset');
+      },
+
+      success: function(json) {
+      	$('.alert-dismissible').remove();
+      
+      	if (json['error']) {
+			//alert(json['error']);
+      		$('#submit_otp_message').after('<div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> ' + json['error'] + '</div>');
+      	} else {
+			displayBlock('N');
+			document.getElementById("customer_id").value = json['customer_id'];
+		}
+      
+      }
+    });
+
+
+}
+</script>
+<script>
+function changePassword(){
+//if success
+	var password1 = document.getElementById("new_password1").value;
+	var password2 = document.getElementById("new_password2").value;
+	var customer_id = document.getElementById("customer_id").value;
+	
+	if ((password1 == '') || (password2 == '') || (password1 != password2)){
+		var msg = 'Both Passwords must have some value and they must be same';
+		$('#change_pwd_message').after('<div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> ' + msg + '</div>');
+		return;
+	} else {
+		if ((password1.length < 6) && (password1.length > 10)){
+			var msg = 'Password must be between 6 & 10 characters';
+			$('#change_pwd_message').after('<div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> ' + msg + '</div>');
+			return;		
+		}
+	}
+	
+	$.ajax({
+      url: 'index.php?route=account/register/changePassword&password1=' + password1 + '&password2='+password2 + '&customer_id='+customer_id,
+      type: 'post',
+      dataType: 'json',
+      beforeSend: function() {
+      	$('#button-change-pwd').button('loading');
+      },
+      complete: function() {
+      	$('#button-change-pwd').button('reset');
+      },
+
+      success: function(json) {
+      	$('.alert-dismissible').remove();
+      
+      	if (json['error']) {
+			//alert(json['error']);
+      		$('#change_pwd_message').after('<div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> ' + json['error'] + '</div>');
+      	} else {
+			document.getElementById("send_otp_user_name").value = json['customer_id'];			
+			window.location = json['redirect'];
+		}
+      
+      }
+    });
+
+
+}
+</script>
+
+
+  </body>
+</html>
+{{ footer }}

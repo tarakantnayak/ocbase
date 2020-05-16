@@ -1,0 +1,94 @@
+{{ header }}
+<!DOCTYPE html>
+<html lang="en">
+   <body>
+      <!-- catg header banner section -->
+      <section id="aa-catg-head-banner">
+         <img src="{{ banner['image'] }}" alt="fashion img">
+         <div class="aa-catg-head-banner-area">
+            <div class="container">
+               <div class="aa-catg-head-banner-content">
+                  <h2>{{ banner['content'] }}</h2>
+                  {% set count =  breadcrumbs|length %}
+                  <ol class="breadcrumb">
+                     {% for breadcrumb in breadcrumbs %}
+                     {% set count = count - 1 %}
+                     {% if count == 0 %}
+                     <li class="active"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+                     {% else %}
+                     <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+                     {% endif %}
+                     {% endfor %}
+                  </ol>
+               </div>
+            </div>
+         </div>
+      </section>
+      <!-- / catg header banner section -->
+      <!-- Cart view section -->
+      <section id="cart-view">
+         <div class="container">
+            <div class="row">
+               <div class="col-md-12">
+                  <div class="cart-view-area">
+                     <div class="cart-view-table">
+					 <h3>{{ payment_html }}</h3>
+                        {% if products %}
+                        <form action="">
+                           <div class="table-responsive">
+                              <table class="table">
+                                 <thead>
+                                    <tr>
+                                       <th>Image</th>
+                                       <th>Product</th>
+                                       <th>Price</th>
+                                       <th>Quantity</th>
+                                       <th>Total</th>
+                                    </tr>
+                                 </thead>
+                                 <tbody>
+                                    {% for product in products %}
+                                    <tr>
+                                       <td><a href="{{ product.href }}"><img src="{{ product.thumb }}" alt="img"></a></td>
+                                       <td><a class="aa-cart-title" href="{{ product.href }}">{{ product.name }}</a></td>
+                                       <td>{{ product.price }}</td>
+                                       <td><input disabled class="aa-cart-quantity" type="number" min="{{ product.minimum }}" id="input-quantity{{ product.cart_id }}" onblur="calculateTotal({{ product.cart_id }});" value="{{ product.quantity }}"></td>
+                                       <td>{{ product.total }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                    {% for voucher in vouchers %}
+                                    <tr>
+                                       <td class="text-left">{{ voucher.description }}</td>
+                                       <td class="text-left"></td>
+                                       <td class="text-right">1</td>
+                                       <td class="text-right">{{ voucher.amount }}</td>
+                                       <td class="text-right">{{ voucher.amount }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                 </tbody>
+                                 <tfoot>
+                                    {% for total in totals %}
+                                    <tr>
+                                       <td colspan="4" class="text-right"><strong>{{ total.title }}:</strong></td>
+                                       <td class="text-right">{{ total.text }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                 </tfoot>
+                              </table>
+                           </div>
+                                             
+
+                        </form>
+						
+						
+                        {% endif %}
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </section>
+      <!-- / Cart view section -->
+   </body>
+</html>
+{{ footer }}

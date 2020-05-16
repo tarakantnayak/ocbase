@@ -1,0 +1,567 @@
+{{ header }}
+<!DOCTYPE html>
+<html lang="en">
+   <body class="productPage">
+      <!-- catg header banner section -->
+      <section id="aa-catg-head-banner">
+         <img src="{{ banner['image'] }}" alt="fashion img">
+         <div class="aa-catg-head-banner-area">
+            <div class="container">
+               <div class="aa-catg-head-banner-content">
+                  <h2>{{ banner['content'] }}</h2>
+                  {% set count =  breadcrumbs|length %}
+                  <ol class="breadcrumb">
+                     {% for breadcrumb in breadcrumbs %}
+                     {% set count = count - 1 %}
+                     {% if count == 0 %}
+                     <li class="active"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+                     {% else %}
+                     <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+                     {% endif %}
+                     {% endfor %}
+                  </ol>
+               </div>
+            </div>
+         </div>
+      </section>
+      <!-- / catg header banner section -->
+      <!-- product category -->
+      <section id="aa-product-category">
+         <div class="container">
+            <div class="row">
+               <div class="col-lg-9 col-md-9 col-sm-8 col-md-push-4">
+                  <div class="aa-product-catg-content1">
+                     <div class="aa-product-catg-body">
+                        <div class="aa-myaccount-area">
+                           <div id="id_warning"></div>
+                           <div class="row" id="master_id_profile">
+                              <div class="col-md-12">
+                                 <div class="aa-myaccount-login">
+                                    <h3>Profile</h3>
+                                    <form class="aa-login-form" id="form-profile">
+                                       <label for="">{{ entry_user_name }}<span>*</span></label>
+                                       <input disabled type="text" name="user_name" value="{{ user_name }}" class="form-control" />
+                                       <label for="">{{ entry_firstname }}<span>*</span></label>
+                                       <input type="text" name="firstname" value="{{ firstname }}" placeholder="{{ entry_firstname }}" id="input-firstname" class="form-control" />
+                                       <label for="">{{ entry_lastname }}<span>*</span></label>
+                                       <input type="text" name="lastname" value="{{ lastname }}" placeholder="{{ entry_lastname }}" id="input-lastname" class="form-control" />
+                                       <label for="">{{ entry_email }}<span>*</span></label>
+                                       <input type="email" name="email" value="{{ email }}" placeholder="{{ entry_email }}" id="input-email" class="form-control" />
+                                       <label for="">{{ entry_telephone }}<span>*</span></label>
+                                       <input type="number" name="telephone" value="{{ telephone }}" placeholder="{{ entry_telephone }}" id="input-telephone" class="form-control" />
+                                       <div class="pull-right">
+                                          <button type="button" class="aa-browse-btn" id="button-save-profile" onclick="saveProfile();">Save</button>
+                                       </div>
+                                    </form>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="row" id="master_id_password" style="display:none;">
+                              <div class="col-md-12">
+                                 <div class="aa-myaccount-login">
+                                    <h3>Password</h3>
+                                    <form class="aa-login-form" id="form-password">
+                                       <label for="">{{ entry_password }}<span>*</span></label>
+                                       <input type="password" name="password" value="{{ password }}" placeholder="{{ entry_password }}" id="input-password" class="form-control" />
+                                       <label for="">{{ entry_confirm }}<span>*</span></label>
+                                       <input type="password" name="confirm" value="{{ confirm }}" placeholder="{{ entry_confirm }}" id="input-confirm" class="form-control" />
+                                       <div class="pull-right">
+                                          <button type="button" class="aa-browse-btn" id="button-password" onclick="changePassword();">Save</button>
+                                       </div>
+                                    </form>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="row" id="master_id_address" style="display:none;">
+                              <div class="col-md-12">
+                                 <div class="aa-myaccount-login">
+                                    <h3>Address</h3>
+                                    <div id="master_id_list">
+                                       {% if addresses %}
+                                       <div class="table-responsive">
+                                          <table class="table table-bordered table-hover">
+                                             {% for result in addresses %}
+                                             <tr>
+                                                <td class="text-left">{{ result.address }}</td>
+                                                <td class="text-right">
+                                                   <button type="button" class="aa-browse-btn" id="button-address-edit" onclick="displayAddressBlock('form{{ result.address_id }}');">{{ button_edit }}</button>		
+                                                   &nbsp; 
+                                                   <a href="{{ result.delete }}" class="aa-browse-btn btn-danger">{{ button_delete }}</a>
+                                                </td>
+                                             </tr>
+                                             {% endfor %}
+                                          </table>
+                                       </div>
+                                       {% else %}
+                                       <p>{{ text_empty }}</p>
+                                       {% endif %}
+                                       <div class="buttons clearfix">
+                                          <div class="pull-right">
+                                             <button type="button" class="aa-browse-btn" id="button-address-list" onclick="displayAddressBlock('form');">{{ button_new_address }}</button>		
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div id="master_id_form" style="display:none;">
+                                       <form class="aa-login-form" id="form-address0">
+                                          <label for="">{{ entry_firstname }}<span>*</span></label>
+                                          <input type="text" name="add_firstname" value="{{ firstname }}" placeholder="{{ entry_firstname }}" id="input-firstname" class="form-control" />
+                                          <label for="">{{ entry_lastname }}<span>*</span></label>
+                                          <input type="text" name="add_lastname" value="{{ lastname }}" placeholder="{{ entry_lastname }}" id="input-lastname" class="form-control" />
+                                          <label for="">{{ entry_address_1 }}<span>*</span></label>
+                                          <input type="text" name="address_1" value="{{ address_1 }}" placeholder="{{ entry_address_1 }}" id="input-address_1" class="form-control" />
+                                          <label for="">{{ entry_address_2 }}<span>*</span></label>
+                                          <input type="text" name="address_2" value="{{ address_2 }}" placeholder="{{ entry_address_2 }}" id="input-address_1" class="form-control" />
+                                          <label for="">{{ entry_city }}<span>*</span></label>
+                                          <input type="text" name="city" value="{{ city }}" placeholder="{{ entry_city }}" id="input-city" class="form-control" />
+                                          <label for="">{{ entry_postcode }}<span>*</span></label>
+                                          <input type="text" name="postcode0" value="{{ postcode }}" placeholder="{{ entry_postcode }}" id="input-postcode" class="form-control" />
+                                          <label for="">{{ entry_country }}<span>*</span></label>
+                                          <select name="country_id" id="input-country0" onchange="getZone(0);" class="form-control">
+                                             <option value="">{{ text_select }}</option>
+                                             {% for country in countries %}
+                                             {% if country.country_id == country_id %}
+                                             <option value="{{ country.country_id }}" >{{ country.name }}</option>
+                                             {% else %}
+                                             <option value="{{ country.country_id }}">{{ country.name }}</option>
+                                             {% endif %}
+                                             {% endfor %}
+                                          </select>
+                                          <label for="">{{ entry_zone }}<span>*</span></label>
+                                          <select name="zone_id0" id="input-zone" class="form-control">
+                                          </select>
+                                          <div class="pull-right">
+                                             <button type="button" class="aa-browse-btn"  onclick="displayAddressBlock('list');">Back</button>		
+                                             <button type="button" class="aa-browse-btn" id="button-address0" onclick="saveAddress(0);">Save</button>		
+                                          </div>
+                                       </form>
+                                    </div>
+                                    {% for result in addresses %}					
+                                    <div id="master_id_form{{ result.address_id }}" style="display:none;">
+                                       <form class="aa-login-form" id="form-address{{ result.address_id }}">
+                                          <label for="">{{ entry_firstname }}<span>*</span></label>
+                                          <input type="text" name="add_firstname" value="{{ edit_addresses[result.address_id]['firstname'] }}" placeholder="{{ entry_firstname }}" id="input-firstname" class="form-control" />
+                                          <label for="">{{ entry_lastname }}<span>*</span></label>
+                                          <input type="text" name="add_lastname" value="{{ edit_addresses[result.address_id]['lastname'] }}" placeholder="{{ entry_lastname }}" id="input-lastname" class="form-control" />
+                                          <label for="">{{ entry_address_1 }}<span>*</span></label>
+                                          <input type="text" name="address_1" value="{{ edit_addresses[result.address_id]['address_1'] }}" placeholder="{{ entry_address_1 }}" id="input-address_1" class="form-control" />
+                                          <label for="">{{ entry_address_2 }}<span>*</span></label>
+                                          <input type="text" name="address_2" value="{{ edit_addresses[result.address_id]['address_2'] }}" placeholder="{{ entry_address_2 }}" id="input-address_1" class="form-control" />
+                                          <label for="">{{ entry_city }}<span>*</span></label>
+                                          <input type="text" name="city" value="{{ edit_addresses[result.address_id]['city'] }}" placeholder="{{ entry_city }}" id="input-city" class="form-control" />
+                                          <label for="">{{ entry_postcode }}<span>*</span></label>
+                                          <input type="text" name="postcode{{ result.address_id }}" value="{{ edit_addresses[result.address_id]['postcode'] }}" placeholder="{{ entry_postcode }}" id="input-postcode" class="form-control" />
+                                          <label for="">{{ entry_country }}<span>*</span></label>
+                                          <select name="country_id" id="input-country{{ result.address_id }}" onchange="getZone({{ result.address_id }});" class="form-control">
+                                             <option value="">{{ text_select }}</option>
+                                             {% for country in countries %}
+                                             {% if country.country_id == country_id %}
+                                             <option value="{{ country.country_id }}" >{{ country.name }}</option>
+                                             {% else %}
+                                             <option value="{{ country.country_id }}">{{ country.name }}</option>
+                                             {% endif %}
+                                             {% endfor %}
+                                          </select>
+                                          <label for="">{{ entry_zone }}<span>*</span></label>
+                                          <select name="zone_id{{ result.address_id }}" id="input-zone" class="form-control">
+                                          </select>
+                                          <div class="pull-right">
+                                             <button type="button" class="aa-browse-btn"  onclick="displayAddressBlock('list');">Back</button>		
+                                             <button type="button" class="aa-browse-btn" id="button-address{{ result.address_id }}" onclick="saveAddress({{ result.address_id }});">Save</button>		
+                                          </div>
+                                       </form>
+                                    </div>
+                                    {% endfor %}
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="row" id="master_id_order" style="display:none;">
+                              <div class="col-md-12">
+                                 <div class="aa-myaccount-login">
+                                    <h3>My Orders</h3>
+                                    <form action="{{ action }}" class="aa-login-form" method="post" enctype="multipart/form-data">
+                                       <label for="">{{ entry_firstname }}<span>*</span></label>
+                                       <input type="text" name="firstname" value="{{ firstname }}" placeholder="{{ entry_firstname }}" id="input-firstname" class="form-control" />
+                                       {% if error_firstname %}
+                                       <div class="text-danger">{{ error_firstname }}</div>
+                                       {% endif %}
+                                       <label for="">{{ entry_lastname }}<span>*</span></label>
+                                       <input type="text" name="lastname" value="{{ lastname }}" placeholder="{{ entry_lastname }}" id="input-lastname" class="form-control" />
+                                       {% if error_lastname %}
+                                       <div class="text-danger">{{ error_lastname }}</div>
+                                       {% endif %}
+                                       <label for="">{{ entry_email }}<span>*</span></label>
+                                       <input type="email" name="email" value="{{ email }}" placeholder="{{ entry_email }}" id="input-email" class="form-control" />
+                                       {% if error_email %}
+                                       <div class="text-danger">{{ error_email }}</div>
+                                       {% endif %}
+                                       <label for="">{{ entry_telephone }}<span>*</span></label>
+                                       <input type="tel" name="telephone" value="{{ telephone }}" placeholder="{{ entry_telephone }}" id="input-telephone" class="form-control" />
+                                       {% if error_telephone %}
+                                       <div class="text-danger">{{ error_telephone }}</div>
+                                       {% endif %}
+                                       <div class="pull-right">
+                                          <button type="button" class="aa-browse-btn" id="button-save-profile" onclick="saveProfile();">Save</button>
+                                       </div>
+                                    </form>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="row" id="master_id_return" style="display:none;">
+                              <div class="col-md-12">
+                                 <div class="aa-myaccount-login">
+                                    <h3>Returns</h3>
+                                    <form action="{{ action }}" class="aa-login-form" method="post" enctype="multipart/form-data">
+                                       <label for="">{{ entry_firstname }}<span>*</span></label>
+                                       <input type="text" name="firstname" value="{{ firstname }}" placeholder="{{ entry_firstname }}" id="input-firstname" class="form-control" />
+                                       {% if error_firstname %}
+                                       <div class="text-danger">{{ error_firstname }}</div>
+                                       {% endif %}
+                                       <label for="">{{ entry_lastname }}<span>*</span></label>
+                                       <input type="text" name="lastname" value="{{ lastname }}" placeholder="{{ entry_lastname }}" id="input-lastname" class="form-control" />
+                                       {% if error_lastname %}
+                                       <div class="text-danger">{{ error_lastname }}</div>
+                                       {% endif %}
+                                       <label for="">{{ entry_email }}<span>*</span></label>
+                                       <input type="email" name="email" value="{{ email }}" placeholder="{{ entry_email }}" id="input-email" class="form-control" />
+                                       {% if error_email %}
+                                       <div class="text-danger">{{ error_email }}</div>
+                                       {% endif %}
+                                       <label for="">{{ entry_telephone }}<span>*</span></label>
+                                       <input type="tel" name="telephone" value="{{ telephone }}" placeholder="{{ entry_telephone }}" id="input-telephone" class="form-control" />
+                                       {% if error_telephone %}
+                                       <div class="text-danger">{{ error_telephone }}</div>
+                                       {% endif %}
+                                       <div class="pull-right">
+                                          <button type="button" class="aa-browse-btn" id="button-save-profile" onclick="saveProfile();">Save</button>
+                                       </div>
+                                    </form>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="row" id="master_id_transaction" style="display:none;">
+                              <div class="col-md-12">
+                                 <div class="aa-myaccount-login">
+                                    <h3>My Transactions</h3>
+                                    <form action="{{ action }}" class="aa-login-form" method="post" enctype="multipart/form-data">
+                                       <label for="">{{ entry_firstname }}<span>*</span></label>
+                                       <input type="text" name="firstname" value="{{ firstname }}" placeholder="{{ entry_firstname }}" id="input-firstname" class="form-control" />
+                                       {% if error_firstname %}
+                                       <div class="text-danger">{{ error_firstname }}</div>
+                                       {% endif %}
+                                       <label for="">{{ entry_lastname }}<span>*</span></label>
+                                       <input type="text" name="lastname" value="{{ lastname }}" placeholder="{{ entry_lastname }}" id="input-lastname" class="form-control" />
+                                       {% if error_lastname %}
+                                       <div class="text-danger">{{ error_lastname }}</div>
+                                       {% endif %}
+                                       <label for="">{{ entry_email }}<span>*</span></label>
+                                       <input type="email" name="email" value="{{ email }}" placeholder="{{ entry_email }}" id="input-email" class="form-control" />
+                                       {% if error_email %}
+                                       <div class="text-danger">{{ error_email }}</div>
+                                       {% endif %}
+                                       <label for="">{{ entry_telephone }}<span>*</span></label>
+                                       <input type="tel" name="telephone" value="{{ telephone }}" placeholder="{{ entry_telephone }}" id="input-telephone" class="form-control" />
+                                       {% if error_telephone %}
+                                       <div class="text-danger">{{ error_telephone }}</div>
+                                       {% endif %}
+                                       <div class="pull-right">
+                                          <button type="button" class="aa-browse-btn" id="button-save-profile" onclick="saveProfile();">Save</button>
+                                       </div>
+                                    </form>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="row" id="master_id_affiliate" style="display:none;">
+                              <div class="col-md-12">
+                                 <div class="aa-myaccount-a">
+                                    <h3>Affiliate</h3>
+                                    <form action="{{ action }}" class="aa-login-form" method="post" enctype="multipart/form-data">
+                                       <label for="">{{ entry_firstname }}<span>*</span></label>
+                                       <input type="text" name="firstname" value="{{ firstname }}" placeholder="{{ entry_firstname }}" id="input-firstname" class="form-control" />
+                                       {% if error_firstname %}
+                                       <div class="text-danger">{{ error_firstname }}</div>
+                                       {% endif %}
+                                       <label for="">{{ entry_lastname }}<span>*</span></label>
+                                       <input type="text" name="lastname" value="{{ lastname }}" placeholder="{{ entry_lastname }}" id="input-lastname" class="form-control" />
+                                       {% if error_lastname %}
+                                       <div class="text-danger">{{ error_lastname }}</div>
+                                       {% endif %}
+                                       <label for="">{{ entry_email }}<span>*</span></label>
+                                       <input type="email" name="email" value="{{ email }}" placeholder="{{ entry_email }}" id="input-email" class="form-control" />
+                                       {% if error_email %}
+                                       <div class="text-danger">{{ error_email }}</div>
+                                       {% endif %}
+                                       <label for="">{{ entry_telephone }}<span>*</span></label>
+                                       <input type="tel" name="telephone" value="{{ telephone }}" placeholder="{{ entry_telephone }}" id="input-telephone" class="form-control" />
+                                       {% if error_telephone %}
+                                       <div class="text-danger">{{ error_telephone }}</div>
+                                       {% endif %}
+                                       <div class="pull-right">
+                                          <button type="button" class="aa-browse-btn" id="button-save-profile" onclick="saveProfile();">Save</button>
+                                       </div>
+                                    </form>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="row" id="master_id_tracking" style="display:none;">
+                              <div class="col-md-12">
+                                 <div class="aa-myaccount-login">
+                                    <h3>Tracking</h3>
+                                    <form action="{{ action }}" class="aa-login-form" method="post" enctype="multipart/form-data">
+                                       <label for="">{{ entry_firstname }}<span>*</span></label>
+                                       <input type="text" name="firstname" value="{{ firstname }}" placeholder="{{ entry_firstname }}" id="input-firstname" class="form-control" />
+                                       {% if error_firstname %}
+                                       <div class="text-danger">{{ error_firstname }}</div>
+                                       {% endif %}
+                                       <label for="">{{ entry_lastname }}<span>*</span></label>
+                                       <input type="text" name="lastname" value="{{ lastname }}" placeholder="{{ entry_lastname }}" id="input-lastname" class="form-control" />
+                                       {% if error_lastname %}
+                                       <div class="text-danger">{{ error_lastname }}</div>
+                                       {% endif %}
+                                       <label for="">{{ entry_email }}<span>*</span></label>
+                                       <input type="email" name="email" value="{{ email }}" placeholder="{{ entry_email }}" id="input-email" class="form-control" />
+                                       {% if error_email %}
+                                       <div class="text-danger">{{ error_email }}</div>
+                                       {% endif %}
+                                       <label for="">{{ entry_telephone }}<span>*</span></label>
+                                       <input type="tel" name="telephone" value="{{ telephone }}" placeholder="{{ entry_telephone }}" id="input-telephone" class="form-control" />
+                                       {% if error_telephone %}
+                                       <div class="text-danger">{{ error_telephone }}</div>
+                                       {% endif %}
+                                       <div class="pull-right">
+                                          <button type="button" class="aa-browse-btn" id="button-save-profile" onclick="saveProfile();">Save</button>
+                                       </div>
+                                    </form>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-lg-3 col-md-3 col-sm-4 col-md-pull-9">
+                  <aside class="aa-sidebar">
+                     <!-- single sidebar -->
+                     <div class="aa-sidebar-widget">
+                        <h3>Personal Details</h3>
+                        <ul class="aa-catg-nav">
+                           <li class="active"><a role="button" onclick="displayBlock('profile');">Profile</a></li>
+                           <li><a role="button"  onclick="displayBlock('password');">Password</a></li>
+                           <li><a role="button"  onclick="displayBlock('address');">Address</a></li>
+                        </ul>
+                     </div>
+                     <!-- single sidebar -->
+                     <!-- single sidebar -->
+                     <div class="aa-sidebar-widget">
+                        <h3>Transaction Details</h3>
+                        <ul class="aa-catg-nav">
+                           <li><a role="button"  onclick="">My Orders</a></li>
+                           <li><a role="button"  onclick="">Returns</a></li>
+                           <li><a role="button"  onclick="">Transaction</a></li>
+                           <!--<li><a role="button"  onclick="displayBlock('order');">My Orders</a></li>
+                              <li><a role="button"  onclick="displayBlock('return');">Returns</a></li>
+                              <li><a role="button"  onclick="displayBlock('transaction');">Transaction</a></li>-->
+                        </ul>
+                     </div>
+                     <!-- single sidebar -->
+                     <!-- single sidebar -->
+                     <div class="aa-sidebar-widget">
+                        <h3>Marketing Details</h3>
+                        <ul class="aa-catg-nav">
+                           <li><a role="button"  onclick="">Affiliate</a></li>
+                           <li><a role="button"  onclick="">Tracking</a></li>
+                           <!--             <li><a role="button"  onclick="displayBlock('affiliate');">Affiliate</a></li>
+                              <li><a role="button"  onclick="displayBlock('tracking');">Tracking</a></li> -->
+                        </ul>
+                     </div>
+                     <!-- single sidebar -->
+                  </aside>
+               </div>
+            </div>
+         </div>
+      </section>
+      <!-- / product category -->
+      <script>
+         function displayBlock(block_id){
+         //	alert("block id :"+block_id);
+         	document.getElementById("master_id_profile").style.display="none";
+         	document.getElementById("master_id_password").style.display="none";
+         	document.getElementById("master_id_address").style.display="none";
+         	document.getElementById("master_id_order").style.display="none";
+         	document.getElementById("master_id_return").style.display="none";
+         	document.getElementById("master_id_transaction").style.display="none";
+         	document.getElementById("master_id_affiliate").style.display="none";
+         	document.getElementById("master_id_tracking").style.display="none";
+         
+         	document.getElementById("master_id_"+block_id).style.display="block";	
+         }
+      </script>
+      <script>
+         function displayAddressBlock(block_id){
+         //	alert("block id :"+block_id);
+         	document.getElementById("master_id_list").style.display="none";
+         	document.getElementById("master_id_form").style.display="none";
+         
+         	document.getElementById("master_id_"+block_id).style.display="block";	
+         }
+      </script>
+      <script>
+         function saveProfile(){
+         	//alert("inside save profile");	
+         
+         	$.ajax({
+               url: 'index.php?route=account/account/saveProfile',
+               type: 'post',
+               dataType: 'json',
+         	  data: $("#form-profile").serialize(),
+               beforeSend: function() {
+               	$('#button-save-profile').button('loading');
+               },
+               complete: function() {
+               	$('#button-save-profile').button('reset');
+               },
+               success: function(json) {
+               	$('.alert-dismissible').remove();
+         		
+               	if (json['error']) {
+         			html = '';
+         			for ( i=0; i < json['error'].length; i++){
+         				html += '<div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> ' + json['error'][i] + '</div>';
+         			}
+         			$('#id_warning').after(html);
+               	} else {
+         			$('#id_warning').after('<div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> ' + json['success'] + '</div>');
+         		}      
+               },
+               error: function (xhr, ajaxOptions, thrownError) {
+               	alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+               }
+             });
+         }
+      </script>
+      <script>
+         function changePassword(){
+         	//alert("inside changePassword");	
+         
+         	$.ajax({
+               url: 'index.php?route=account/account/changePassword',
+               type: 'post',
+               dataType: 'json',
+         	  data: $("#form-password").serialize(),
+               beforeSend: function() {
+               	$('#button-password').button('loading');
+               },
+               complete: function() {
+               	$('#button-password').button('reset');
+               },
+               success: function(json) {
+               	$('.alert-dismissible').remove();
+         		
+               	if (json['error']) {
+         			html = '';
+         			for ( i=0; i < json['error'].length; i++){
+         				html += '<div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> ' + json['error'][i] + '</div>';
+         			}
+         			$('#id_warning').after(html);
+               	} else {
+         			$('#id_warning').after('<div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> ' + json['success'] + '</div>');
+         		}      
+               },
+               error: function (xhr, ajaxOptions, thrownError) {
+               	alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+               }
+             });
+         }
+      </script>
+      <script>
+         function saveAddress(address_id){
+         	//alert("inside saveAddress");	
+         
+         		$.ajax({
+         		  url: 'index.php?route=account/account/saveAddress&address_id='+address_id,
+         		  type: 'post',
+         		  dataType: 'json',
+         		  data: $("#form-address"+address_id).serialize(),
+         		  beforeSend: function() {
+         			$('#button-address'+address_id).button('loading');
+         		  },
+         		  complete: function() {
+         			$('#button-address'+address_id).button('reset');
+         		  },
+         		  success: function(json) {
+         			$('.alert-dismissible').remove();
+         			
+         			if (json['error']) {
+         				html = '';
+         				for ( i=0; i < json['error'].length; i++){
+         					html += '<div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> ' + json['error'][i] + '</div>';
+         				}
+         				$('#id_warning').after(html);
+         			} else {
+         				$('#id_warning').after('<div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> ' + json['success'] + '</div>');
+         				window.location = json['redirect'] + '&display_block=address';
+         			}      
+         		  },
+         		  error: function (xhr, ajaxOptions, thrownError) {
+         			alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+         		  }
+         		});
+         	
+         }
+      </script>
+      <script>
+         function getZone(address_id){
+         var country_id = document.getElementById("input-country"+address_id).value;
+         
+         	$.ajax({
+         		url: 'index.php?route=account/account/country&country_id=' + country_id,
+         		dataType: 'json',
+         		beforeSend: function() {
+         			$('select[name=\'country_id\']').prop('disabled', true);
+         		},
+         		complete: function() {
+         			$('select[name=\'country_id\']').prop('disabled', false);
+         		},
+         		success: function(json) {
+         			if (json['postcode_required'] == '1') {
+         				$('input[name=\'postcode'+ address_id +'\']').parent().parent().addClass('required');
+         			} else {
+         				$('input[name=\'postcode'+ address_id +'\']').parent().parent().removeClass('required');
+         			}
+         			
+         			html = '<option value="">{{ text_select }}</option>';
+         			
+         			if (json['zone'] && json['zone'] != '') {
+         				for (i = 0; i < json['zone'].length; i++) {
+         					html += '<option value="' + json['zone'][i]['zone_id'] + '"';
+         					
+         					if (json['zone'][i]['zone_id'] == '{{ zone_id }}') {
+         						html += ' selected="selected"';
+         					}
+         					
+         					html += '>' + json['zone'][i]['name'] + '</option>';
+         				}
+         			} else {
+         				html += '<option value="0" selected="selected">{{ text_none }}</option>';
+         			}
+         			
+         			$('select[name=\'zone_id'+ address_id +'\']').html(html);
+         		},
+         		error: function(xhr, ajaxOptions, thrownError) {
+         			alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+         		}
+         	});
+         }
+         
+         $('select[name=\'country_id\']').trigger('change');
+      </script> 
+      <script>
+         var v_block_id = '{{ display_block }}';
+         
+         
+         if (v_block_id){
+         	displayBlock(v_block_id);
+         }
+      </script>
+   </body>
+</html>
+{{ footer }}
