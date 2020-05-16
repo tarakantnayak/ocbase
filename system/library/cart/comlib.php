@@ -336,6 +336,39 @@ class Comlib {
 	    $this->db->query("INSERT INTO " . DB_PREFIX . "log_error SET invoice_id = '". $order_id ."', invoice_entity = '". $order_entity ."', error_date = now(), error_message = '". $error ."'");
 	    
 	}
-	
-	
+
+	public function getSenderDetails(){
+	    
+	    $logger = new Log("getSenderDetails");
+	    $logger->write("inside getSenderDetails");
+	    
+	    $sender_details = $this->getValues('SMSSENDER');
+	    
+	    
+	    $logger->write("printing sender_details ");
+	    
+	    $logger->write($sender_details);
+	    
+	    $data = array();
+	    
+	    foreach ($sender_details as $result){
+	        if ($result['maintenance_value'] == 'SENDER_ID'){
+	            $data['SENDER_ID'] = $result['short_name'];
+	        }
+	        if ($result['maintenance_value'] == 'SENDER_API_KEY'){
+	            $data['SENDER_API_KEY'] = $result['short_name'];
+	        }
+	        if ($result['maintenance_value'] == 'API_PARTNER'){
+	            $data['API_PARTNER'] = $result['short_name'];
+	        }
+	    }
+	    
+	    if (empty($data)){
+	        $data['SENDER_ID'] = 'ATTIRE';
+	        $data['SENDER_API_KEY'] = '5926869d2ddf2';
+	        $data['API_PARTNER'] = 'http://softsms.in/app/smsapi/index.php?key=';
+	    }
+	    
+	   return $data;
+	}
 }

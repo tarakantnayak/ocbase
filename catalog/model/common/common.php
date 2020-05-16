@@ -192,10 +192,15 @@ class ModelCommonCommon extends Model {
         
         $logger = New Log("sendSMS");
         $logger->write("Inside sendSMS");
-        $senderid = 'ATTIRE';
-        $senderidapikey = '5926869d2ddf2';
         
-        $api_url ='http://softsms.in/app/smsapi/index.php?key='.$senderidapikey.'&type=text&contacts='.$mobile_no.'&senderid='.$senderid.'&msg='.urlencode($smstext);
+        $data = $this->comlib->getSenderDetails();
+
+        $senderid = $data['SENDER_ID'];
+        $senderidapikey = $data['SENDER_API_KEY'];
+        $api_partner = $data['API_PARTNER'];
+        
+        $api_url = $api_partner.$senderidapikey.'&type=text&contacts='.$mobile_no.'&senderid='.$senderid.'&msg='.urlencode($smstext);
+     //   $api_url ='http://softsms.in/app/smsapi/index.php?key='.$senderidapikey.'&type=text&contacts='.$mobile_no.'&senderid='.$senderid.'&msg='.urlencode($smstext);
         //$api_url ='http://api-alerts.solutionsinfini.com/v3/?method=sms.xml&api_key=A943f24b0b748bad767864c98f6ac26fa&xml='.urlencode($xmldata);
         $logger->write($api_url);
         $response = file_get_contents($api_url);

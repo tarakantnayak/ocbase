@@ -51,7 +51,7 @@ class ControllerMailRegister extends Controller {
     		$mail->send();
 		} else {
 		    $smstext = 'You have been successfully registered and logged on. Happy Shopping! Team HomeEntrepreneurs';
-		    $this->model_common_common->sendSms($smstext, $args[0]['username']);
+		    $this->model_common_common->sendSms($smstext, $args[0]['user_name']);
 		}
 	}
 	
