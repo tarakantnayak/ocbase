@@ -127,7 +127,7 @@ class ControllerProductCategory extends Controller {
 			$category_id = 0;
 		}
 
-		$data['banner'] = $this->model_common_common->getDisplayImages('SLIDER', 1920, 300);
+		$data['banner'] = $this->model_common_common->getDisplayImages('HEADER_BANNER', 1920, 300);
 		$category_info = $this->model_catalog_category->getCategory($category_id);
 
 		if ($category_info) {

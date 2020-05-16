@@ -18,7 +18,7 @@ class ControllerCheckoutCart extends Controller {
 			'text' => $this->language->get('heading_title')
 		);
 		
-		$data['banner'] = $this->model_common_common->getDisplayImages('SLIDER', 1920, 300);
+		$data['banner'] = $this->model_common_common->getDisplayImages('HEADER_BANNER', 1920, 300);
 		
 		if ($this->cart->hasProducts() || !empty($this->session->data['vouchers'])) {
 			if (!$this->cart->hasStock() && (!$this->config->get('config_stock_checkout') || $this->config->get('config_stock_warning'))) {

@@ -106,7 +106,7 @@ class ControllerAccountWishList extends Controller {
 		    $data['text_error'] = $this->language->get('text_empty');
 		}
 		
-		$data['banner'] = $this->model_common_common->getDisplayImages('SLIDER', 1920, 300);
+		$data['banner'] = $this->model_common_common->getDisplayImages('HEADER_BANNER', 1920, 300);
 		
 		
 		$data['continue'] = $this->url->link('common/home');

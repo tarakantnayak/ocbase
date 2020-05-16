@@ -2,7 +2,7 @@
 class ControllerAccountOrder extends Controller {
 	public function index() {
 	    $this->load->model('common/common');
-	    $data['banner'] = $this->model_common_common->getDisplayImages('SLIDER', 1920, 300);
+	    $data['banner'] = $this->model_common_common->getDisplayImages('HEADER_BANNER', 1920, 300);
 	    if (!$this->customer->isLogged()) {
 			$this->session->data['redirect'] = $this->url->link('account/order', '', true);
 

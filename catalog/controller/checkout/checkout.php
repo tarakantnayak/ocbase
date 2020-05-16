@@ -135,7 +135,7 @@ class ControllerCheckoutCheckout extends Controller {
 		
 		
 		//banner
-		$data['banner'] = $this->model_common_common->getDisplayImages('SLIDER', 1920, 300);
+		$data['banner'] = $this->model_common_common->getDisplayImages('HEADER_BANNER', 1920, 300);
 		
 		$cart_data = $this->model_common_common->getCartData();
 	

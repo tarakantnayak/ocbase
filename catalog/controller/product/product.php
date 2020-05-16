@@ -221,7 +221,7 @@ class ControllerProductProduct extends Controller {
 				'href' => $this->url->link('product/product', $url . '&product_id=' . $this->request->get['product_id'])
 			);
 
-			$data['banner'] = $this->model_common_common->getDisplayImages('SLIDER', 1920, 300);
+			$data['banner'] = $this->model_common_common->getDisplayImages('HEADER_BANNER', 1920, 300);
 
 			$data['no_of_reviews'] = $product_info['reviews'];
 			

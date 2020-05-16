@@ -64,7 +64,7 @@ class ControllerInformationContact extends Controller {
 			$data['error_enquiry'] = '';
 		}
 
-		$data['banner'] = $this->model_common_common->getDisplayImages('SLIDER', 1920, 300);
+		$data['banner'] = $this->model_common_common->getDisplayImages('HEADER_BANNER', 1920, 300);
 		
 		$data['button_submit'] = $this->language->get('button_submit');
 

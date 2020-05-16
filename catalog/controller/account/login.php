@@ -7,7 +7,7 @@ class ControllerAccountLogin extends Controller {
 	    //$this->response->redirect($this->url->link('account/register', '', true));
 		$this->load->model('account/customer');
 		$this->load->model('common/common');
-		$data['banner'] = $this->model_common_common->getDisplayImages('SLIDER', 1920, 300);
+		$data['banner'] = $this->model_common_common->getDisplayImages('HEADER_BANNER', 1920, 300);
 		// Login override for admin users
 		if (!empty($this->request->get['token'])) {
 			$this->customer->logout();
